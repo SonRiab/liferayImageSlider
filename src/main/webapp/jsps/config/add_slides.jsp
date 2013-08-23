@@ -66,7 +66,7 @@
                 <aui:input cssClass="input-text" type="textarea" label="slide.text"
                            rows="3" cols="20" name="desc" />
                 <aui:button-row>
-                    <aui:button name="saveButton" cssClass="save-btn" type="submit" value="button.save" />
+                    <aui:button name="saveButton" cssClass="save-btn" type="submit" value="save" />
                 </aui:button-row>
             </aui:column>
 

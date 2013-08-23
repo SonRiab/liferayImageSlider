@@ -3,7 +3,7 @@
 
 <liferay-portlet-app>
 	<portlet>
-		<portlet-name>slider-portlet</portlet-name>
+		<portlet-name>rcs-slider-portlet</portlet-name>
 		<icon>/nivo.png</icon>
 		<configuration-action-class>com.rcs.portlet.slider.action.ConfigurationActionImpl</configuration-action-class>
 		<instanceable>true</instanceable>
