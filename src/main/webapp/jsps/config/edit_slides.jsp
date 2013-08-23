@@ -14,7 +14,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  */
- --%>
+--%>
 
 <%@include file="/init.jsp" %>
 
@@ -23,14 +23,14 @@
 <liferay-ui:error key="invalid-slide" message="invalid-slide" />
 
 <br />
- 
+
 <aui:layout cssClass="slide-layout">
-	<aui:column columnWidth="50" first="true">
-		<jsp:include page="/jsps/config/slides_details.jsp"></jsp:include>		
-	</aui:column>
-	<aui:column columnWidth="50" last="true">
-		<jsp:include page="/jsps/config/add_slides.jsp"></jsp:include>
-	</aui:column>
+    <aui:column columnWidth="50" first="true">
+        <jsp:include page="/jsps/config/slides_details.jsp"></jsp:include>		
+    </aui:column>
+    <aui:column columnWidth="50" last="true">
+        <jsp:include page="/jsps/config/add_slides.jsp"></jsp:include>
+    </aui:column>
 </aui:layout>
 
 <br />
