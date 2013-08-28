@@ -74,7 +74,7 @@
             
             <aui:column columnWidth="100" >
                 <aui:field-wrapper label="label-slide-text">
-                    <liferay-ui:input-editor toolbarSet="email" initMethod="initEditor" width="200" />
+                    <liferay-ui:input-editor toolbarSet="slider-description" initMethod="initEditor" width="200" />
                     <aui:script>
                         function <portlet:namespace />initEditor() { 
                             return document.<portlet:namespace />fm.<portlet:namespace />desc.value; 
