@@ -36,7 +36,7 @@
 
 <liferay-portlet:actionURL portletConfiguration="true" var="actionURL" />
 
-<aui:fieldset label="slide.animation">
+<aui:fieldset label="tab-slide-animation">
 
     <aui:form action="<%=actionURL.toString()%>" method="post" name="fm">
 

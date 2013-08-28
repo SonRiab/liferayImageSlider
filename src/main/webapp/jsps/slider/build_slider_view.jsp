@@ -29,37 +29,32 @@
     String widthValue = preferences.getValue(SliderParamUtil.SETTINGS_SLIDE_WIDTH, "618");
     String heightValue = preferences.getValue(SliderParamUtil.SETTINGS_SLIDE_HEIGHT, "246");
 
-    if(Validator.isNull(widthValue) ||  !Validator.isNumber(widthValue))
-        widthValue = "618";
-    if(Validator.isNull(heightValue) ||  !Validator.isNumber(heightValue))
-        heightValue = "246";
+    if(Validator.isNull(widthValue))
+        widthValue = "618px";
+    if(Validator.isNull(heightValue))
+        heightValue = "246px";
     themeValue = themeValue.toLowerCase();
+    
+    if(displaySlide) { 
+        String inlineStyle = new StringBuilder("margin:0 auto;")
+                .append("width: ").append(widthValue).append(";")
+                .append("height: ").append(heightValue).append(";").toString();
 %>
-
-<style>
-    #slider {
-        margin:0 auto;
-        width:<%=widthValue%>px; /* Make sure your images are the same size */
-        height:<%=heightValue%>px; /* Make sure your images are the same size */
-    }
-</style>
-
-<% if(displaySlide) { %>
 <div class="slider-wrapper theme-<%=themeValue%> <%=addCssClassValue%>">
     <div class="ribbon"></div>
-    <div id="slider" class="nivoSlider">
+    <div id="slider" class="nivoSlider" style="<%= inlineStyle %>">
         <%=slidesBuilder%>
     </div>
 </div>
-<% } else { %>
-<center><b><liferay-ui:message key="no-slides-configured-message"></liferay-ui:message></b></center>
-<% } %>
+<%  } else { %>
+<center><b><liferay-ui:message key="message-no-slides-configured"></liferay-ui:message></b></center>
+<%  } %>
 
 <link rel="stylesheet" href="<%=renderRequest.getContextPath()%>/css/<%=themeValue%>/<%=themeValue%>.css" type="text/css" media="screen" />
 <link rel="stylesheet" href="<%=renderRequest.getContextPath()%>/css/nivo-slider.css" type="text/css" media="screen" />
 
-<script type="text/javascript">
+<aui:script>
     $(window).load(function() {
         $('#slider').nivoSlider({<%=buildSettings%>});
     });
-</script>
+</aui:script>

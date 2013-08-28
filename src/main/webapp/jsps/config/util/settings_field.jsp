@@ -4,12 +4,13 @@
     String fieldName = (String)request.getAttribute("slide-name");
     String fieldValue = (String)request.getAttribute("slide-value");
     String property = (String)request.getAttribute("slide-property");
-    String desc = "desc-"  + fieldName;
+    String desc  = "desc-"  + fieldName;
+    String label = "label-" + fieldName;
 %>
 
 <aui:layout cssClass="slide-field-wrapper">
     <aui:column columnWidth="20" first="true">
-        <liferay-ui:message key="<%=fieldName%>"></liferay-ui:message>
+        <liferay-ui:message key="<%=label%>"></liferay-ui:message>
     </aui:column>
 
     <aui:column columnWidth="35">

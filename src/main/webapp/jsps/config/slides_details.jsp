@@ -33,7 +33,7 @@
         // create search container, used to display table
         SearchContainer searchContainer = new SearchContainer(renderRequest, null, null,
                         SearchContainer.DEFAULT_CUR_PARAM, SearchContainer.DEFAULT_DELTA, portletURL, headerNames,
-                        "no-records");
+                        "message-no-records");
 
         portletURL.setParameter(searchContainer.getCurParam(), String.valueOf(searchContainer.getCurValue()));
 
@@ -65,7 +65,7 @@
     <liferay-portlet:renderURL portletConfiguration="true" var="addSlideURL"></liferay-portlet:renderURL>
 
     <aui:button-row>
-        <aui:button href="<%=addSlideURL%>" value="button.add-slide"></aui:button>
+        <aui:button href="<%=addSlideURL%>" value="button-add-slide"></aui:button>
     </aui:button-row>
 
 </aui:fieldset>
@@ -81,7 +81,7 @@
 
 <aui:script>
     function confirmDeleteSlide() {
-        if (confirm('<liferay-ui:message key="are-you-sure-you-want-to-delete-slide"/>')){
+        if (confirm('<liferay-ui:message key="message-are-you-sure-you-want-to-delete-slide"/>')){
             return true;
         } else {
             self.focus(); 

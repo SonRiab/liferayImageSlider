@@ -18,9 +18,9 @@
 
 <%@include file="/init.jsp" %>
 
-<liferay-ui:error key="image-invalid" message="image-invalid" />
-<liferay-ui:error key="title-invalid" message="title-invalid" />
-<liferay-ui:error key="invalid-slide" message="invalid-slide" />
+<liferay-ui:error key="message-image-invalid" message="message-image-invalid" />
+<liferay-ui:error key="message-title-invalid" message="message-title-invalid" />
+<liferay-ui:error key="message-invalid-slide" message="message-invalid-slide" />
 
 <br />
 

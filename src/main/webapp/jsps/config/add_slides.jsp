@@ -16,7 +16,6 @@
  */
 --%>
 
-
 <%@include file="/init.jsp" %>
 
 <%
@@ -57,34 +56,48 @@
     <aui:input name="<%=SliderConstants.CMD%>" type="hidden" value="<%=SliderConstants.UPDATE%>" />
     <aui:input name="image" id="slideImage" type="hidden" value="<%=slideImage%>" />
 
-    <aui:fieldset label="slide.detail">
+    <aui:fieldset label="label-slide-detail">
         <aui:layout>
             <aui:column columnWidth="50">
 
-                <aui:input cssClass="input-text" type="text" name="title" label="slide.title" />
-                <aui:input cssClass="input-text" type="text" name="link" label="slide.link" />
-                <aui:input cssClass="input-text" type="textarea" label="slide.text"
-                           rows="3" cols="20" name="desc" />
-                <aui:button-row>
-                    <aui:button name="saveButton" cssClass="save-btn" type="submit" value="save" />
-                </aui:button-row>
+                <aui:input cssClass="input-text" type="text" name="title" label="label-slide-title" />
+                <aui:input cssClass="input-text" type="text" name="link" label="label-slide-link" />
+                <aui:input type="hidden" name="desc" />
+                
             </aui:column>
 
             <aui:column columnWidth="50">
-                <br>
-                <b>Image Preview</b>
-                <br>
-                <aui:button name="imageButton" type="button" value="button.choose.image" onClick="selectImage()" />
-                <br>		
+                <label class="aui-field-label"><liferay-ui:message key="label-slide-image-preview" /></label>
                 <img id="imagePreview" src="<%=slideImage%>" width="170" 
-                        height="100" style="display:block; margin: 10px 0px;"/>
+                        height="100" style="display:block; margin: 3px 0px; border: 1px solid gray"/>
+            </aui:column>
+            
+            <aui:column columnWidth="100" >
+                <aui:field-wrapper label="label-slide-text">
+                    <liferay-ui:input-editor toolbarSet="email" initMethod="initEditor" width="200" />
+                    <aui:script>
+                        function <portlet:namespace />initEditor() { 
+                            return document.<portlet:namespace />fm.<portlet:namespace />desc.value; 
+                        }
+                        
+                        function sliderEditSubmit() { 
+                            var message = window.<portlet:namespace />editor.getHTML();
+                            document.<portlet:namespace />fm.<portlet:namespace />desc.value = message;
+                            submitForm(document.<portlet:namespace />fm);
+                        }
+                    </aui:script>
+                </aui:field-wrapper>
+                <aui:button-row>
+                    <aui:button name="imageButton" type="button" value="button-choose-image" onClick="selectImage()" />
+                    <aui:button name="saveButton" cssClass="save-btn" type="submit" value="save" onClick="sliderEditSubmit();" />
+                </aui:button-row>
             </aui:column>
         </aui:layout>
     </aui:fieldset>
 </aui:form>
 
-<script type="text/javascript">
-    var CKEDITOR = {
+<aui:script>
+    var VIEWER = {
         tools: {
             callFunction: function(funcNum, fileUrl) {
                 $('#imagePreview').attr('src', fileUrl);
@@ -95,10 +108,4 @@
     function selectImage() {
         window.open('<%=connectorURL%>', "mywindow", "scroll=1,status=1,menubar=1,width=700,height=550");
     }
-</script>
-
-<style type="text/css">
-    .input-text,textarea {
-        margin: 0px 0px 10px;
-    }
-</style>
+</aui:script>

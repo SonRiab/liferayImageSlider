@@ -32,7 +32,7 @@
     <liferay-portlet:param name="tab" value="<%=SliderConstants.TAB_SLIDES%>" />
 </liferay-portlet:renderURL>
 
-<liferay-ui:icon image="top" message="slide.up" url="<%= slideUpURL.toString() %>" />
+<liferay-ui:icon image="top" message="alt-slide-up" url="<%= slideUpURL.toString() %>" />
 
 <liferay-portlet:renderURL portletConfiguration="true" var="slideDownURL" >
     <liferay-portlet:param name="slideId" value="<%=slideId%>" />
@@ -40,7 +40,7 @@
     <liferay-portlet:param name="tab" value="<%=SliderConstants.TAB_SLIDES%>" />
 </liferay-portlet:renderURL>
 
-<liferay-ui:icon image="bottom" message="slide.down" url="<%= slideDownURL.toString() %>" />
+<liferay-ui:icon image="bottom" message="alt-slide-down" url="<%= slideDownURL.toString() %>" />
 
 <liferay-portlet:renderURL portletConfiguration="true" var="updateURL" >
     <liferay-portlet:param name="slideParamId" value="<%=slideId%>" />
@@ -56,7 +56,7 @@
 
 <span> 
     <a href="<%=deleteURL.toString() %>" onclick="return confirmDeleteSlide();" class="taglib-icon">
-        <img title="<liferay-ui:message key="slide.delete" />"
+        <img title="<liferay-ui:message key="alt-slide-delete" />"
              alt="Delete" src="/html/themes/classic/images/common/delete.png" 
              class="icon">
     </a> 
