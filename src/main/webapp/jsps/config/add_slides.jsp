@@ -74,22 +74,11 @@
             
             <aui:column columnWidth="100" >
                 <aui:field-wrapper label="label-slide-text">
-                    <liferay-ui:input-editor toolbarSet="slider-description" initMethod="initEditor" width="200" />
-                    <aui:script>
-                        function <portlet:namespace />initEditor() { 
-                            return document.<portlet:namespace />fm.<portlet:namespace />desc.value; 
-                        }
-                        
-                        function sliderEditSubmit() { 
-                            var message = window.<portlet:namespace />editor.getHTML();
-                            document.<portlet:namespace />fm.<portlet:namespace />desc.value = message;
-                            submitForm(document.<portlet:namespace />fm);
-                        }
-                    </aui:script>
+                    <liferay-ui:input-editor toolbarSet="slider-description" initMethod="initEditor" width="200"/>
                 </aui:field-wrapper>
                 <aui:button-row>
                     <aui:button name="imageButton" type="button" value="button-choose-image" onClick="selectImage()" />
-                    <aui:button name="saveButton" cssClass="save-btn" type="submit" value="save" onClick="sliderEditSubmit();" />
+                    <aui:button name="saveButton" cssClass="save-btn" type="submit" value="save" onClick="sliderEditSubmit()" />
                 </aui:button-row>
             </aui:column>
         </aui:layout>
@@ -97,15 +86,24 @@
 </aui:form>
 
 <aui:script>
-    var VIEWER = {
-        tools: {
-            callFunction: function(funcNum, fileUrl) {
-                $('#imagePreview').attr('src', fileUrl);
-                $('#<portlet:namespace/>slideImage').val(fileUrl);
-            }
-        }
-    };
+    
+    var refNumber = CKEDITOR.tools.addFunction(function(fileUrl) {
+        $('#imagePreview').attr('src', fileUrl);
+        $('#<portlet:namespace/>slideImage').val(fileUrl);
+    });
+    
+    
     function selectImage() {
-        window.open('<%=connectorURL%>', "mywindow", "scroll=1,status=1,menubar=1,width=700,height=550");
+        window.open('<%=connectorURL%>&CKEditorFuncNum='+refNumber, "mywindow", "scroll=1,status=1,menubar=1,width=700,height=550");
+    }
+    
+    function <portlet:namespace />initEditor() { 
+        return document.<portlet:namespace />fm.<portlet:namespace />desc.value; 
+    }
+
+    function sliderEditSubmit() { 
+        var message = window.<portlet:namespace />editor.getHTML();
+        document.<portlet:namespace />fm.<portlet:namespace />desc.value = message;
+        submitForm(document.<portlet:namespace />fm);
     }
 </aui:script>

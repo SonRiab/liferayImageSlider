@@ -97,15 +97,3 @@
         </aui:button-row>
     </aui:form>
 </aui:fieldset>
-
-<style>
-    .slide-field-wrapper{
-        width: 600px !important;
-    }
-    .aui-field-content{
-        margin: 0px !important;
-    }
-    .ltr .aui-column, .rtl .aui-column-last{
-        margin: 10px 0;
-    }
-</style>

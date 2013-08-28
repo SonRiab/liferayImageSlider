@@ -18,8 +18,6 @@
 
 <%@include file="/init.jsp" %>
 
-<%@include file="/jsps/config/js/jquery-1.7.2.min.js.jsp" %>
-
 <%
         String tabValue = ParamUtil.getString(request, "tab", "slides");
         String tabValues = SliderConstants.TAB_SLIDES 

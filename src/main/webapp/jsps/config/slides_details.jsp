@@ -19,7 +19,7 @@
 <%@page import="com.liferay.portal.kernel.portlet.LiferayWindowState"%>
 <%@include file="/init.jsp" %>
 
-<aui:fieldset label="slides" cssClass="slides">
+<aui:fieldset label="tab-slides" cssClass="slides">
     <%
         Locale  locale = renderRequest.getLocale();
 
@@ -69,17 +69,7 @@
     </aui:button-row>
 
 </aui:fieldset>
-
-<style>
-    .slides .aui-legend{
-        border-bottom: 0px none !important; 
-    }
-    .slides .results-header th.last{
-        text-align: center;
-    }
-</style>
-
-<aui:script>
+	<aui:script>
     function confirmDeleteSlide() {
         if (confirm('<liferay-ui:message key="message-are-you-sure-you-want-to-delete-slide"/>')){
             return true;

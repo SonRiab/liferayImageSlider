@@ -1,0 +1,17 @@
+.slides .aui-legend{
+    border-bottom: 0px none !important; 
+}
+.slides .results-header th.last{
+    text-align: center;
+}
+
+.slide-field-wrapper{
+    width: 600px !important;
+}
+
+.aui-field-content{
+    margin: 0px !important;
+}
+.ltr .aui-column, .rtl .aui-column-last{
+    margin: 10px 0;
+}
