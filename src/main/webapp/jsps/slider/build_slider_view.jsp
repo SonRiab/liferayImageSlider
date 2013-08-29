@@ -51,10 +51,9 @@
 <%  } %>
 
 <link rel="stylesheet" href="<%=renderRequest.getContextPath()%>/css/<%=themeValue%>/<%=themeValue%>.css" type="text/css" media="screen" />
-<link rel="stylesheet" href="<%=renderRequest.getContextPath()%>/css/nivo-slider.css" type="text/css" media="screen" />
 
 <aui:script>
-    $(window).load(function() {
+    $(document).ready(function() {
         $('#slider').nivoSlider({<%=buildSettings%>});
     });
 </aui:script>
