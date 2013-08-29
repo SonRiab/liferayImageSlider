@@ -1,18 +1,17 @@
-Liferay Image Slider plugin v1.1
+Liferay Image Slider plugin v1.2
 
 # Overview
 
-A JQuery Image Slider plugin for Liferay built by Rotterdam Community Solutions to enable endusers to dynamically configure image sliders throughout their portal using Liferay´s Document Library images. Please check the User Guide in the repository or go to http://www.rotterdam-cs.com for more information.
+A JQuery Image Slider plugin for Liferay built by Rotterdam Community Solutions and extended by Rene Jablonski to enable endusers to dynamically configure image sliders throughout their portal using Liferay´s Document Library images. You can find a working war file here: 
 
 # Requirements
 
-Liferay 6.1 or higher
+Liferay 6.1.1 or higher (any other version is untested)
 
-# Upgrading from v1.0 or older
+# Upgrading from all version of the original RCS Liferay Image Slider plugin
 
-Please deinstall v1.0 completely before installing version 1.1, as the name and artifact id have been corrected in this version.
+Please deinstall the portlet completely before installing version 1.2, as the name and artifact id have been changed in this version.
 
 # Running it
 
-There´s no stable release for this plugin yet, please check again in a few days.
-For more information, please check the User Guide attached.
+As far as I have tested it the plugin is stable and ready to use. But I am not responsible for any crashes, data lose, etc.
