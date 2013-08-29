@@ -19,9 +19,11 @@
             <%					
                 String[] options = PortletProps.getArray(property);
                 for (String option: options) {
+                    String value = option.replace("option-settings-effect-", "")
+                            .replace("yes","true").replace("no","false").trim();
             %>
-            <aui:option value="<%= option.trim() %>" label="<%= option.trim() %>" 
-                selected="<%= (option.trim().equals(fieldValue)) %>" />
+            <aui:option value="<%= value %>" label="<%= option.trim() %>" 
+                selected="<%= (value.equals(fieldValue)) %>" />
             <%
                 }
             %>
