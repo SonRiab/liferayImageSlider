@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.rcs</groupId>
     <artifactId>rcs-slider-portlet</artifactId>
-    <version>1.1</version>
+    <version>1.2</version>
     <name>RCS Slider Portlet</name>
     <description>rcs-slider-portlet</description>
     <packaging>war</packaging>
