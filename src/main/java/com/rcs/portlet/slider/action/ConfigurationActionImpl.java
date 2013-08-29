@@ -1,19 +1,20 @@
 /**
- * Copyright (C) Rotterdam Community Solutions B.V.
- * http://www.rotterdam-cs.com
+ * Copyright (C) Rotterdam Community Solutions B.V. http://www.rotterdam-cs.com
  *
  ***********************************************************************************************************************
  *
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
- * the License. You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+ * use this file except in compliance with the License. You may obtain a copy of
+ * the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on
- * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations under the License.
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
+ * the License.
  */
-
 package com.rcs.portlet.slider.action;
 
 import java.util.Date;
@@ -45,277 +46,271 @@ import com.rcs.portlet.slider.util.SliderUtil;
  */
 public class ConfigurationActionImpl implements ConfigurationAction {
 
-		public String render(PortletConfig portletConfig,
-										RenderRequest renderRequest,
-										RenderResponse renderResponse)
-										throws Exception {
-
-				String cmd = renderRequest.getParameter(SliderConstants.CMD);
-
-				if (Validator.isNotNull(cmd)) {
-						processRequest(renderRequest, renderResponse, cmd);
-				}
-
-				return "/jsps/config/configuration.jsp";
-		}
-
-		public void processAction(PortletConfig portletConfig,
-										ActionRequest request,
-										ActionResponse response)
-										throws Exception {
-
-				String cmd = request.getParameter(SliderConstants.CMD);
-
-				if (Validator.isNull(cmd)) {
-						throw new Exception("exception-occurred");
-				}
-				try {
-						if (cmd.equals(SliderConstants.UPDATE)) {
-								savePreferences(request, response);
-								response.setRenderParameter("tab", "slides");
-						}
-						else if (cmd.equals(SliderConstants.UPDATE_SETTINGS)) {
-								String tab = ParamUtil.getString(request, "tab");
-								if (tab != null)
-										response.setRenderParameter("tab", tab);
-								updateSettings(request, response);
-						}
-						else if (cmd.equals(SliderConstants.DELETE)) {
-								deleteSlide(request, response);
-								response.setRenderParameter("tab", "slides");
-						}
-
-						SessionMessages.add(request, "request-successfully");
-				}
-				catch (Exception e) {
-						_log.error(e.getMessage());
-						SessionErrors.add(request, e.getMessage());
-				}
-		}
-
-		private void processRequest(PortletRequest request,
-										PortletResponse response, String cmd) {
-
-				try {
-						if (cmd.equals(SliderConstants.DELETE)) {
-								deleteSlide(request, response);
-						}
-						else if (cmd.equals(SliderConstants.SLIDE_MOVE_DOWN)) {
-								updateSlideOrder(request, response, true);
-						}
-						else if (cmd.equals(SliderConstants.SLIDE_MOVE_UP)) {
-								updateSlideOrder(request, response, false);
-						}
-
-						SessionMessages.add(request, "request-successfully");
-				}
-				catch (Exception e) {
-						_log.error(e.getMessage());
-						SessionErrors.add(request, e.getMessage());
-				}
-		}
-
-		private void updateSlideOrder(PortletRequest request,
-										PortletResponse response,
-										boolean slideDown) throws Exception {
-
-				String slideIdParam = ParamUtil.getString(request, "slideId",
-						null);
-
-				_log.info("updateSlideOrder - slideId=" + slideIdParam);
-
-				if (Validator.isNull(slideIdParam)) {
-						throw new IllegalArgumentException("exception-occurred");
-				}
-
-				Long slideId = SliderUtil.getSlideId(slideIdParam);
-
-				List<Slide> slides = SliderUtil.getSlides(request, response);
-
-				for (Slide slide : slides) {
-
-						if (slide.getId() == slideId) {
-
-								Slide nextSlide = null;
-								int indexOf = slides.indexOf(slide);
-								int nextSlideIndex = slideDown ? indexOf + 1
-										: indexOf - 1;
-
-								if (nextSlideIndex >= 0
-									&& nextSlideIndex < slides.size()) {
-										nextSlide = slides.get(nextSlideIndex);
-										if (nextSlide != null)
-												switchSlide(request, response,
-														slide, nextSlide);
-								}
+    public String render(PortletConfig portletConfig,
+            RenderRequest renderRequest,
+            RenderResponse renderResponse)
+            throws Exception {
+
+        String cmd = renderRequest.getParameter(SliderConstants.CMD);
+
+        if (Validator.isNotNull(cmd)) {
+            processRequest(renderRequest, renderResponse, cmd);
+        }
+
+        return "/jsps/config/configuration.jsp";
+    }
+
+    public void processAction(PortletConfig portletConfig,
+            ActionRequest request,
+            ActionResponse response)
+            throws Exception {
+
+        String cmd = request.getParameter(SliderConstants.CMD);
+
+        if (Validator.isNull(cmd)) {
+            throw new Exception("exception-occurred");
+        }
+        try {
+            if (cmd.equals(SliderConstants.UPDATE)) {
+                savePreferences(request, response);
+                response.setRenderParameter("tab", "slides");
+            } else if (cmd.equals(SliderConstants.UPDATE_SETTINGS)) {
+                String tab = ParamUtil.getString(request, "tab");
+                if (tab != null) {
+                    response.setRenderParameter("tab", tab);
+                }
+                updateSettings(request, response);
+            } else if (cmd.equals(SliderConstants.DELETE)) {
+                deleteSlide(request, response);
+                response.setRenderParameter("tab", "slides");
+            }
+
+            SessionMessages.add(request, "request-successfully");
+        } catch (Exception e) {
+            _log.error(e.getMessage());
+            SessionErrors.add(request, e.getMessage());
+        }
+    }
+
+    private void processRequest(PortletRequest request,
+            PortletResponse response, String cmd) {
+
+        try {
+            if (cmd.equals(SliderConstants.DELETE)) {
+                deleteSlide(request, response);
+            } else if (cmd.equals(SliderConstants.SLIDE_MOVE_DOWN)) {
+                updateSlideOrder(request, response, true);
+            } else if (cmd.equals(SliderConstants.SLIDE_MOVE_UP)) {
+                updateSlideOrder(request, response, false);
+            }
+
+            SessionMessages.add(request, "request-successfully");
+        } catch (Exception e) {
+            _log.error(e.getMessage());
+            SessionErrors.add(request, e.getMessage());
+        }
+    }
 
-								break;
-						}
-				}
+    private void updateSlideOrder(PortletRequest request,
+            PortletResponse response,
+            boolean slideDown) throws Exception {
 
-		}
+        String slideIdParam = ParamUtil.getString(request, "slideId",
+                null);
+
+        _log.info(String.format("updateSlideOrder - slideId=%s", slideIdParam));
+
+        if (Validator.isNull(slideIdParam)) {
+            throw new IllegalArgumentException("exception-occurred");
+        }
+
+        Long slideId = SliderUtil.getSlideId(slideIdParam);
+
+        List<Slide> slides = SliderUtil.getSlides(request, response);
+
+        for (Slide slide : slides) {
 
-		private void switchSlide(PortletRequest request,
-										PortletResponse response, Slide slide,
-										Slide nextSlide) throws Exception {
+            if (slide.getId() == slideId) {
+
+                int indexOf = slides.indexOf(slide);
+                int nextSlideIndex = slideDown ? indexOf + 1
+                        : indexOf - 1;
+
+                if (nextSlideIndex >= 0
+                        && nextSlideIndex < slides.size()) {
+                    Slide nextSlide = slides.get(nextSlideIndex);
+                    if (nextSlide != null) {
+                        switchSlide(request, response,
+                                slide, nextSlide);
+                    }
+                }
+
+                break;
+            }
+        }
 
-				int slideOrder = slide.getOrder();
-				int nextSlideOrder = nextSlide.getOrder();
+    }
 
-				// exchange slide order
-				saveSlideOrder(request, response, slide, nextSlideOrder);
+    private void switchSlide(PortletRequest request,
+            PortletResponse response, Slide slide,
+            Slide nextSlide) throws Exception {
 
-				saveSlideOrder(request, response, nextSlide, slideOrder);
-		}
+        int slideOrder = slide.getOrder();
+        int nextSlideOrder = nextSlide.getOrder();
 
-		private void updateSettings(ActionRequest actionRequest,
-										ActionResponse actionResponse)
-										throws Exception {
+        // exchange slide order
+        saveSlideOrder(request, response, slide, nextSlideOrder);
 
-				_log.info("updateAnimation - start");
+        saveSlideOrder(request, response, nextSlide, slideOrder);
+    }
 
-				String portletResource = ParamUtil.getString(actionRequest,
-						"portletResource");
-				PortletPreferences preferences = PortletPreferencesFactoryUtil
-												.getPortletSetup(actionRequest,
-														portletResource);
+    private void updateSettings(ActionRequest actionRequest,
+            ActionResponse actionResponse)
+            throws Exception {
 
-				Enumeration<String> parameterNames = actionRequest
-												.getParameterNames();
+        _log.info("updateAnimation - start");
 
-				while (parameterNames.hasMoreElements()) {
+        String portletResource = ParamUtil.getString(actionRequest,
+                "portletResource");
+        PortletPreferences preferences = PortletPreferencesFactoryUtil
+                .getPortletSetup(actionRequest,
+                portletResource);
 
-						String param = parameterNames.nextElement();
-						if (param.startsWith("settings")) {
+        Enumeration<String> parameterNames = actionRequest
+                .getParameterNames();
 
-								String value = ParamUtil.get(actionRequest,
-										param, "");
-								_log.info("save param=" + param + ", value="
-										  + value);
+        while (parameterNames.hasMoreElements()) {
 
-								preferences.setValue(param, value);
-						}
-				}
+            String param = parameterNames.nextElement();
+            if (param.startsWith("settings")) {
 
-				preferences.store();
+                String value = ParamUtil.get(actionRequest,
+                        param, "");
+                _log.info(String.format("save param=%s, value=%s", param, value));
 
-				_log.info("updateAnimation - end");
+                preferences.setValue(param, value);
+            }
+        }
 
-		}
+        preferences.store();
 
-		private void deleteSlide(PortletRequest request,
-										PortletResponse response)
-										throws Exception {
+        _log.info("updateAnimation - end");
 
-				String slideId = ParamUtil.getString(request, "slideId", null);
+    }
 
-				_log.info("deleteSlide - slideId=" + slideId);
+    private void deleteSlide(PortletRequest request,
+            PortletResponse response)
+            throws Exception {
 
-				if (Validator.isNotNull(slideId)) {
-						String portletResource = ParamUtil.getString(request,
-								"portletResource");
+        String slideId = ParamUtil.getString(request, "slideId", null);
 
-						PortletPreferences preferences = PortletPreferencesFactoryUtil
-														.getPortletSetup(
-																request,
-																portletResource);
-						preferences.reset(slideId);
-						preferences.store();
-				}
-				else {
-						throw new Exception("invalid-slide");
-				}
+        _log.info(String.format("deleteSlide - slideId=%s", slideId));
 
-		}
+        if (Validator.isNotNull(slideId)) {
+            String portletResource = ParamUtil.getString(request,
+                    "portletResource");
 
-		private void savePreferences(ActionRequest request,
-										ActionResponse response)
-										throws Exception {
+            PortletPreferences preferences = PortletPreferencesFactoryUtil
+                    .getPortletSetup(
+                    request,
+                    portletResource);
+            preferences.reset(slideId);
+            preferences.store();
+        } else {
+            throw new Exception("invalid-slide");
+        }
 
-				String portletResource = ParamUtil.getString(request,
-						"portletResource");
+    }
 
-				PortletPreferences portletPreferences = PortletPreferencesFactoryUtil
-												.getPortletSetup(request,
-														portletResource);
+    private void savePreferences(ActionRequest request,
+            ActionResponse response)
+            throws Exception {
 
-				String slideId = ParamUtil.getString(request, "slideId", null);
-				String title = ParamUtil.getString(request, "title", "");
-				String link = ParamUtil.getString(request, "link", "");
-				String desc = ParamUtil.getString(request, "desc", "");
-				String image = ParamUtil.getString(request, "image", "");
+        String portletResource = ParamUtil.getString(request,
+                "portletResource");
 
-				if (_log.isDebugEnabled()) {
-						_log.debug("savePreferences - slideId=" + slideId
-								   + ", title=" + title + ", link=" + link
-								   + ", desc=" + desc + ", image=" + image);
-				}
+        PortletPreferences portletPreferences = PortletPreferencesFactoryUtil
+                .getPortletSetup(request,
+                portletResource);
 
-				verifyParameter(title, link, image);
+        String slideId = ParamUtil.getString(request, "slideId", null);
+        String title = ParamUtil.getString(request, "title", "");
+        String link = ParamUtil.getString(request, "link", "");
+        String desc = ParamUtil.getString(request, "desc", "");
+        String image = ParamUtil.getString(request, "image", "");
 
-				int order = SliderUtil.getLastSlide(request, response);
+        if (_log.isDebugEnabled()) {
+            _log.debug(String.format("savePreferences - slideId=%s, title=%s, link=%s, desc=%s, image=%s", slideId, title, link, desc, image));
+        }
 
-				if (_log.isDebugEnabled()) {
-						_log.debug("savePreferences - order=" + order);
-				}
+        verifyParameter(title, link, image);
 
-				String[] values = new String[] { title, link, desc, image, String
-												.valueOf((new Date().getTime())), String
-												.valueOf(order) };
+        int order = SliderUtil.getLastSlide(request, response);
 
-				if (slideId == null || "".equals(slideId.trim())) {
-						slideId = "slides_"
-								  + String.valueOf((new Date()).getTime());
-				}
+        if (_log.isDebugEnabled()) {
+            _log.debug(String.format("savePreferences - order=%s", order));
+        }
 
-				if (_log.isDebugEnabled())
-						_log.debug("slideId=" + slideId);
+        String[] values = new String[]{title, link, desc, image, String
+            .valueOf((new Date().getTime())), String
+            .valueOf(order)};
 
-				portletPreferences.setValues(slideId, values);
-				portletPreferences.store();
+        if (slideId == null || "".equals(slideId.trim())) {
+            slideId = String.format("slides_%s", String.valueOf((new Date()).getTime()));
+        }
 
-				response.setRenderParameter("slideParamId", slideId);
-				response.setRenderParameter("slideImage", image);
-		}
+        if (_log.isDebugEnabled()) {
+            _log.debug(String.format("slideId=%s", slideId));
+        }
 
-		private void saveSlideOrder(PortletRequest request,
-										PortletResponse response, Slide slide,
-										int order) throws Exception {
+        portletPreferences.setValues(slideId, values);
+        portletPreferences.store();
 
-				String portletResource = ParamUtil.getString(request,
-						"portletResource");
+        response.setRenderParameter("slideParamId", slideId);
+        response.setRenderParameter("slideImage", image);
+    }
 
-				PortletPreferences portletPreferences = PortletPreferencesFactoryUtil
-												.getPortletSetup(request,
-														portletResource);
+    private void saveSlideOrder(PortletRequest request,
+            PortletResponse response, Slide slide,
+            int order) throws Exception {
 
-				String slideId = "slides_" + slide.getId();
-				String title = slide.getTitle();
-				String link = slide.getLink();
-				String desc = slide.getDesc();
-				String image = slide.getImageUrl();
+        String portletResource = ParamUtil.getString(request,
+                "portletResource");
 
-				_log.info("savePreferences - slideId=" + slideId + ", title="
-						  + title + ", link=" + link + ", desc=" + desc
-						  + ", image=" + image + ", order=" + order);
+        PortletPreferences portletPreferences = PortletPreferencesFactoryUtil
+                .getPortletSetup(request,
+                portletResource);
 
-				String[] values = new String[] { title, link, desc, image, String
-												.valueOf(slide.getTimeMillis()), String
-												.valueOf(order) };
+        String slideId = new StringBuilder().append("slides_").append(slide.getId()).toString();
+        String title = slide.getTitle();
+        String link = slide.getLink();
+        String desc = slide.getDesc();
+        String image = slide.getImageUrl();
 
-				portletPreferences.setValues(slideId, values);
-				portletPreferences.store();
-		}
+        _log.info(new StringBuilder()
+                .append("savePreferences - slideId=").append(slideId)
+                .append(", title=").append(title)
+                .append(", link=").append(link)
+                .append(", desc=").append(desc)
+                .append(", image=").append(image)
+                .append(", order=").append(order).toString());
 
-		private void verifyParameter(String title, String link, String image) {
+        String[] values = new String[]{title, link, desc, image, String
+            .valueOf(slide.getTimeMillis()), String
+            .valueOf(order)};
 
-				if (Validator.isNull(title)) {
-						throw new IllegalArgumentException("title-invalid");
-				}
-				if (Validator.isNull(image)) {
-						throw new IllegalArgumentException("image-invalid");
-				}
-		}
+        portletPreferences.setValues(slideId, values);
+        portletPreferences.store();
+    }
 
-		private Log _log = LogFactoryUtil.getLog(ConfigurationActionImpl.class);
+    private void verifyParameter(String title, String link, String image) {
+
+        if (Validator.isNull(title)) {
+            throw new IllegalArgumentException("title-invalid");
+        }
+        if (Validator.isNull(image)) {
+            throw new IllegalArgumentException("image-invalid");
+        }
+    }
+    private Log _log = LogFactoryUtil.getLog(ConfigurationActionImpl.class);
 }

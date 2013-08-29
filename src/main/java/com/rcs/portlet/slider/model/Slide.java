@@ -1,21 +1,21 @@
 /**
- * Copyright (C) Rotterdam Community Solutions B.V.
- * http://www.rotterdam-cs.com
+ * Copyright (C) Rotterdam Community Solutions B.V. http://www.rotterdam-cs.com
  *
  ***********************************************************************************************************************
  *
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
- * the License. You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+ * use this file except in compliance with the License. You may obtain a copy of
+ * the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on
- * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations under the License.
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
+ * the License.
  */
-
 package com.rcs.portlet.slider.model;
-
 
 /**
  * @author Rajesh
@@ -23,101 +23,99 @@ package com.rcs.portlet.slider.model;
  */
 public class Slide {
 
-		long id = 0;
-		String title = null;
-		String link = null;
-		String imageUrl = null;
-		String desc = null;
-		String timeMillis = null;
-		int order = 0;
+    long id = 0;
+    String title = null;
+    String link = null;
+    String imageUrl = null;
+    String desc = null;
+    String timeMillis = null;
+    int order = 0;
 
-		public Slide() {
+    public Slide() {
+    }
 
-		}
+    public Slide(String id, String title, String link, String imageUrl,
+            String desc, String timeMillis,
+            int order) {
 
-		public Slide(String id, String title, String link, String imageUrl,
-										String desc, String timeMillis,
-										int order) {
+        id = id.replaceAll("slides_", "");
 
-				id = id.replaceAll("slides_", "");
+        this.id = Long.parseLong(id);
+        this.title = title;
+        this.link = link;
+        this.imageUrl = imageUrl;
+        this.timeMillis = timeMillis;
+        this.desc = desc;
+        this.order = order;
+    }
 
-				this.id = Long.parseLong(id);
-				this.title = title;
-				this.link = link;
-				this.imageUrl = imageUrl;
-				this.timeMillis = timeMillis;
-				this.desc = desc;
-				this.order = order;
-		}
+    public String getTimeMillis() {
 
-		public String getTimeMillis() {
+        return timeMillis;
+    }
 
-				return timeMillis;
-		}
+    public void setTimeMillis(String timeMillis) {
 
-		public void setTimeMillis(String timeMillis) {
+        this.timeMillis = timeMillis;
+    }
 
-				this.timeMillis = timeMillis;
-		}
+    public long getId() {
 
-		public long getId() {
+        return id;
+    }
 
-				return id;
-		}
+    public void setId(long id) {
 
-		public void setId(long id) {
+        this.id = id;
+    }
 
-				this.id = id;
-		}
+    public int getOrder() {
 
-		public int getOrder() {
+        return order;
+    }
 
-				return order;
-		}
+    public void setOrder(int order) {
 
-		public void setOrder(int order) {
+        this.order = order;
+    }
 
-				this.order = order;
-		}
+    public String getTitle() {
 
-		public String getTitle() {
+        return title;
+    }
 
-				return title;
-		}
+    public void setTitle(String title) {
 
-		public void setTitle(String title) {
+        this.title = title;
+    }
 
-				this.title = title;
-		}
+    public String getLink() {
 
-		public String getLink() {
+        return link;
+    }
 
-				return link;
-		}
+    public void setLink(String link) {
 
-		public void setLink(String link) {
+        this.link = link;
+    }
 
-				this.link = link;
-		}
+    public String getImageUrl() {
 
-		public String getImageUrl() {
+        return imageUrl;
+    }
 
-				return imageUrl;
-		}
+    public void setImageUrl(String imageUrl) {
 
-		public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
 
-				this.imageUrl = imageUrl;
-		}
+    public String getDesc() {
 
-		public String getDesc() {
+        return desc;
+    }
 
-				return desc;
-		}
+    public void setDesc(String desc) {
 
-		public void setDesc(String desc) {
-
-				this.desc = desc;
-		}
-
+        this.desc = desc;
+    }
 }

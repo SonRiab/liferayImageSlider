@@ -69,7 +69,8 @@
     </aui:button-row>
 
 </aui:fieldset>
-	<aui:script>
+
+<aui:script>
     function confirmDeleteSlide() {
         if (confirm('<liferay-ui:message key="message-are-you-sure-you-want-to-delete-slide"/>')){
             return true;
@@ -80,4 +81,4 @@
 
         return false;
     }
-</aui:script>		
+</aui:script>
