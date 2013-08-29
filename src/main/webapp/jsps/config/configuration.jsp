@@ -38,8 +38,8 @@
     tabsValues="<%= tabValues %>"
 />
 
-<liferay-ui:success key="request-successfully" message="request-successfully" />
-<liferay-ui:error key="exception-occurred" message="exception-occurred" />
+<liferay-ui:success key="message-request-successfully" message="message-request-successfully" />
+<liferay-ui:error key="message-exception-occurred" message="message-exception-occurred" />
 
 <% if(tabValue.equalsIgnoreCase(SliderConstants.TAB_SLIDES_ANIMATION)) { %>
 
