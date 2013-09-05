@@ -3,6 +3,6 @@
 
 <display>
     <category name="RCS">
-        <portlet id="rcs-slider-portlet" />
+        <portlet id="RCSSlider" />
     </category>
 </display>
