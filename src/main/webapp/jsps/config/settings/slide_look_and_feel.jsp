@@ -24,10 +24,10 @@
     PortletPreferences preferences = SliderUtil.getPreference(renderRequest, portletResource);
 
     String themeValue = preferences.getValue(SliderParamUtil.SETTINGS_THEME, "default");
-    String opacityValue = preferences.getValue(SliderParamUtil.SETTINGS_OPACTIY, "0.8");
+    String opacityValue = preferences.getValue(SliderParamUtil.SETTINGS_OPACITY, "0.8");
     String addCssClassValue = preferences.getValue(SliderParamUtil.SETTINGS_ADDITIONAL_CSS_CLASS, "");
-    String widthValue = preferences.getValue(SliderParamUtil.SETTINGS_SLIDE_WIDTH, "618");
-    String heightValue = preferences.getValue(SliderParamUtil.SETTINGS_SLIDE_HEIGHT, "246");
+    String widthValue = preferences.getValue(SliderParamUtil.SETTINGS_SLIDE_WIDTH, "618px");
+    String heightValue = preferences.getValue(SliderParamUtil.SETTINGS_SLIDE_HEIGHT, "246px");
 
 %>
 
@@ -50,7 +50,7 @@
         <jsp:include page="/jsps/config/util/settings_field.jsp"></jsp:include>
 
         <%
-            request.setAttribute("slide-name", SliderParamUtil.SETTINGS_OPACTIY);
+            request.setAttribute("slide-name", SliderParamUtil.SETTINGS_OPACITY);
             request.setAttribute("slide-value", opacityValue);
             request.setAttribute("slide-property", "slider-opacity");
         %>	

@@ -10,7 +10,7 @@ public interface SliderParamUtil {
     String SETTINGS_START_SLIDE = "settings-startSlide";
     String SETTINGS_RANDOM_SLIDE = "settings-randomSlide";
     String SETTINGS_THEME = "settings-theme";
-    String SETTINGS_OPACTIY = "settings-opacity";
+    String SETTINGS_OPACITY = "settings-opacity";
     String SETTINGS_ADDITIONAL_CSS_CLASS = "settings-addition-css-class";
     String SETTINGS_DIRECTION_NAV = "settings-direction-naviation";
     String SETTINGS_PREVIOUS_TEXT = "settings-previous-text";

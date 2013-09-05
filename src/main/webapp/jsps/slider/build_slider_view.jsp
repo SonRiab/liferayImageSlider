@@ -26,8 +26,9 @@
 
     String themeValue = preferences.getValue(SliderParamUtil.SETTINGS_THEME, "default");
     String addCssClassValue = preferences.getValue(SliderParamUtil.SETTINGS_ADDITIONAL_CSS_CLASS, "");
-    String widthValue = preferences.getValue(SliderParamUtil.SETTINGS_SLIDE_WIDTH, "618");
-    String heightValue = preferences.getValue(SliderParamUtil.SETTINGS_SLIDE_HEIGHT, "246");
+    String opacityValue = preferences.getValue(SliderParamUtil.SETTINGS_OPACITY, "0.8");
+    String widthValue = preferences.getValue(SliderParamUtil.SETTINGS_SLIDE_WIDTH, "618px");
+    String heightValue = preferences.getValue(SliderParamUtil.SETTINGS_SLIDE_HEIGHT, "246px");
 
     if(Validator.isNull(widthValue))
         widthValue = "618px";
@@ -36,13 +37,14 @@
     themeValue = themeValue.toLowerCase();
     
     if(displaySlide) { 
-        String inlineStyle = new StringBuilder("margin:0 auto;")
-                .append("width: ").append(widthValue).append(";")
+        String inlineStyle = new StringBuilder("width: ").append(widthValue).append(";")
                 .append("height: ").append(heightValue).append(";").toString();
+        
+
 %>
-<div class="slider-wrapper theme-<%=themeValue%> <%=addCssClassValue%>">
+<div class="slider-wrapper theme-<%=themeValue%> <%=addCssClassValue%>" style="<%= inlineStyle %>">
     <div class="ribbon"></div>
-    <div id="slider" class="nivoSlider" style="<%= inlineStyle %>">
+    <div id="<portlet:namespace />slider" class="nivoSlider" style="<%= inlineStyle %>">
         <%=slidesBuilder%>
     </div>
 </div>
@@ -51,9 +53,14 @@
 <%  } %>
 
 <link rel="stylesheet" href="<%=renderRequest.getContextPath()%>/css/<%=themeValue%>/<%=themeValue%>.css" type="text/css" media="screen" />
+<style type="text/css">
+    .nivo-caption {
+        opacity: <%= opacityValue %>;
+    }
+</style>
 
 <aui:script>
     $(document).ready(function() {
-        $('#slider').nivoSlider({<%=buildSettings%>});
+        $('#<portlet:namespace />slider').nivoSlider({<%=buildSettings%>});
     });
 </aui:script>

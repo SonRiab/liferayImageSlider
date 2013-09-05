@@ -124,6 +124,8 @@ public class SliderUtil {
             if (Validator.isNotNull(slide.getLink())) {
                 slidesBuilder.append("<a href=\"");
                 slidesBuilder.append(slide.getLink());
+                slidesBuilder.append("\" title=\"");
+                slidesBuilder.append(slide.getTitle());
                 slidesBuilder.append("\">");
             }
             slidesBuilder.append("<img src=\"");
@@ -184,7 +186,7 @@ public class SliderUtil {
         String manualAdvanceValue = preferences.getValue(
                 SliderParamUtil.SETTINGS_MANUAL_ADVANCE, "false");
         String opacityValue = preferences.getValue(
-                SliderParamUtil.SETTINGS_OPACTIY, "0.8");
+                SliderParamUtil.SETTINGS_OPACITY, "0.8");
 
         StringBuilder settings = new StringBuilder();
         settings.append("effect:'").append(effectSelectedValue).append("'");
@@ -220,8 +222,10 @@ public class SliderUtil {
         settings.append(", keyboardNav:").append(keyboardNavValue);
         settings.append(", pauseOnHover:").append(pauseOnHoverValue);
         settings.append(", manualAdvance:").append(manualAdvanceValue);
-        settings.append(", captionOpacity:").append(opacityValue);
-
+        
+        // this option seems to be removed in nivo slider version 3.2
+        //settings.append(", captionOpacity:").append(opacityValue);
+        
         return settings.toString();
     }
 
