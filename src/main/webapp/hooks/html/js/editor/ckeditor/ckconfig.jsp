@@ -66,6 +66,56 @@ CKEDITOR.config.language = '<%= HtmlUtil.escapeJS(languageId) %>';
 
 CKEDITOR.config.stylesCombo_stylesSet = 'liferayStyles';
 
+CKEDITOR.config.toolbar_editInPlace = [
+	['Styles'],
+	['Bold', 'Italic', 'Underline', 'Strike'],
+	['Subscript', 'Superscript', 'SpecialChar'],
+	['Undo', 'Redo'],
+	['SpellChecker', 'Scayt'],
+	['NumberedList', 'BulletedList', '-', 'Outdent', 'Indent'], ['Source', 'RemoveFormat'],
+];
+
+CKEDITOR.config.toolbar_email = [
+	['FontSize', 'TextColor', 'BGColor', '-', 'Bold', 'Italic', 'Underline', 'Strike'],
+	['JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock'],
+	['SpellChecker', 'Scayt'],
+	'/',
+	['Undo', 'Redo', '-', 'Cut', 'Copy', 'Paste', 'PasteText', 'PasteFromWord', '-', 'SelectAll', 'RemoveFormat'],
+	['Source'],
+	['Link', 'Unlink'],
+	['Image']
+];
+
+CKEDITOR.config.toolbar_liferay = [
+	['Styles', 'FontSize', '-', 'TextColor', 'BGColor'],
+	['Bold', 'Italic', 'Underline', 'Strike'],
+	['Subscript', 'Superscript'],
+	'/',
+	['Undo', 'Redo', '-', 'Cut', 'Copy', 'Paste', 'PasteText', 'PasteFromWord', '-', 'SelectAll', 'RemoveFormat'],
+	['Find', 'Replace', 'SpellChecker', 'Scayt'],
+	['NumberedList', 'BulletedList', '-', 'Outdent', 'Indent'],
+	['JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock'],
+	'/',
+	['Source'],
+	['Link', 'Unlink', 'Anchor'],
+	['Image', 'Flash', 'Table', '-', 'Smiley', 'SpecialChar']
+];
+
+CKEDITOR.config.toolbar_liferayArticle = [
+	['Styles', 'FontSize', '-', 'TextColor', 'BGColor'],
+	['Bold', 'Italic', 'Underline', 'Strike'],
+	['Subscript', 'Superscript'],
+	'/',
+	['Undo', 'Redo', '-', 'Cut', 'Copy', 'Paste', 'PasteText', 'PasteFromWord', '-', 'SelectAll', 'RemoveFormat'],
+	['Find', 'Replace', 'SpellChecker', 'Scayt'],
+	['NumberedList','BulletedList','-','Outdent','Indent','Blockquote'],
+	['JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock'],
+	'/',
+	['Source'],
+	['Link', 'Unlink', 'Anchor'],
+	['Image', 'Flash', 'Table', '-', 'Smiley', 'SpecialChar', 'LiferayPageBreak']
+];
+
 CKEDITOR.config.toolbar_sliderDescription = [
 	['Styles'],
 	['Bold', 'Italic', 'Underline', 'Strike'],
