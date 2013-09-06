@@ -121,28 +121,43 @@ public class SliderUtil {
 
         StringBuilder slidesBuilder = new StringBuilder();
         for (Slide slide : slides) {
+            
             if (Validator.isNotNull(slide.getLink())) {
-                slidesBuilder.append("<a href=\"");
-                slidesBuilder.append(slide.getLink());
-                slidesBuilder.append("\" title=\"");
-                slidesBuilder.append(slide.getTitle());
+                slidesBuilder.append("<a href=\"").append(slide.getLink());
+                if (Validator.isNotNull(slide.getTitle())) {
+                    slidesBuilder.append("\" title=\"").append(slide.getTitle());
+                }
                 slidesBuilder.append("\">");
             }
-            slidesBuilder.append("<img src=\"");
-            slidesBuilder.append(slide.getImageUrl());
-            slidesBuilder.append("\" ");
-            if (Validator.isNotNull(slide.getDesc())) {
-                slidesBuilder.append(" title=\"");
-                slidesBuilder.append(slide.getDesc());
-                slidesBuilder.append("\" ");
-            }
-            slidesBuilder.append("/>");
+            
+            slidesBuilder.append("<img src=\"").append(slide.getImageUrl())
+                    .append("\" title=\"#slide-desc").append(slide.getId())
+                    .append("\" />");
+            
             if (Validator.isNotNull(slide.getLink())) {
                 slidesBuilder.append("</a>");
             }
         }// end slides for
 
         return slidesBuilder.toString();
+    }
+    
+    public static String buildCaption(PortletRequest renderRequest,
+            PortletResponse renderResponse)
+            throws PortalException, SystemException {
+
+        List<Slide> slides = SliderUtil.getSlides(renderRequest,
+                renderResponse);
+
+        StringBuilder captionBuilder = new StringBuilder();
+        for (Slide slide : slides) {
+            captionBuilder.append("<div id=\"slide-desc").append(slide.getId()).append("\">");
+            if (Validator.isNotNull(slide.getDesc())) {
+                captionBuilder.append(slide.getDesc());
+            }
+            captionBuilder.append("</div>");
+        }// end slides for
+        return captionBuilder.toString();
     }
 
     public static String buildSettings(PortletRequest renderRequest,

@@ -17,9 +17,10 @@
 --%>
 <%@ include file="/init.jsp"%>
 <%		
-    String slidesBuilder = SliderUtil.buildSlides(renderRequest, renderResponse);
-    String buildSettings = SliderUtil.buildSettings(renderRequest, renderResponse);
-    boolean displaySlide = (slidesBuilder != null && !slidesBuilder.trim().equals(""));
+    String slidesBuilder  = SliderUtil.buildSlides(renderRequest, renderResponse);
+    String captionBuilder = SliderUtil.buildCaption(renderRequest, renderResponse);
+    String buildSettings  = SliderUtil.buildSettings(renderRequest, renderResponse);
+    boolean displaySlide  = (slidesBuilder != null && !slidesBuilder.trim().equals(""));
 
     //Slides Themes
     PortletPreferences preferences = SliderUtil.getPreference(renderRequest, null);
@@ -45,7 +46,10 @@
 <div class="slider-wrapper theme-<%=themeValue%> <%=addCssClassValue%>" style="<%= inlineStyle %>">
     <div class="ribbon"></div>
     <div id="<portlet:namespace />slider" class="nivoSlider" style="<%= inlineStyle %>">
-        <%=slidesBuilder%>
+        <%= slidesBuilder %>
+    </div>
+    <div id="<portlet:namespace />htmlcaption" class="nivo-html-caption">
+        <%= captionBuilder %>
     </div>
 </div>
 <%  } else { %>
