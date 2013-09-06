@@ -217,7 +217,7 @@ public class ConfigurationActionImpl implements ConfigurationAction {
             preferences.reset(slideId);
             preferences.store();
         } else {
-            throw new Exception("invalid-slide");
+            throw new Exception("message-invalid-slide");
         }
 
     }
@@ -306,10 +306,10 @@ public class ConfigurationActionImpl implements ConfigurationAction {
     private void verifyParameter(String title, String link, String image) {
 
         if (Validator.isNull(title)) {
-            throw new IllegalArgumentException("title-invalid");
+            throw new IllegalArgumentException("message-title-invalid");
         }
         if (Validator.isNull(image)) {
-            throw new IllegalArgumentException("image-invalid");
+            throw new IllegalArgumentException("message-image-invalid");
         }
     }
     private Log _log = LogFactoryUtil.getLog(ConfigurationActionImpl.class);
