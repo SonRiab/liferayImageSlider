@@ -25,12 +25,11 @@
     PortletPreferences preferences = SliderUtil.getPreference(renderRequest, portletResource);
 
     String effectSelectedValue = preferences.getValue(SliderParamUtil.SETTINGS_EFFECT, "random");
-    String slicesValue = preferences.getValue(SliderParamUtil.SETTINGS_SLICES, "15");
-    String boxColumnValue = preferences.getValue(SliderParamUtil.SETTINGS_BOX_COLUMN, "8");
     String animationSpeedValue = preferences.getValue(SliderParamUtil.SETTINGS_ANIMATION_SPEED, "500");
     String pauseTimeValue = preferences.getValue(SliderParamUtil.SETTINGS_PAUSE_TIME, "3000");
     String startSlideValue = preferences.getValue(SliderParamUtil.SETTINGS_START_SLIDE, "0");
     String randomSlideValue = preferences.getValue(SliderParamUtil.SETTINGS_RANDOM_SLIDE, "false");
+    String slidesToAnimate = preferences.getValue(SliderParamUtil.SETTINGS_NUMBER_ANIMATE, "");
 	
 %>
 
@@ -53,20 +52,6 @@
         <jsp:include page="/jsps/config/util/settings_field.jsp"></jsp:include>
 
         <%
-            request.setAttribute("slide-name", SliderParamUtil.SETTINGS_SLICES);
-            request.setAttribute("slide-value", slicesValue);
-            request.setAttribute("slide-property", "slider-slices");
-        %>	
-        <jsp:include page="/jsps/config/util/settings_field.jsp"></jsp:include>
-
-        <%
-            request.setAttribute("slide-name", SliderParamUtil.SETTINGS_BOX_COLUMN);
-            request.setAttribute("slide-value", boxColumnValue);
-            request.setAttribute("slide-property", "slider-box-column");
-        %>	
-        <jsp:include page="/jsps/config/util/settings_field.jsp"></jsp:include>
-
-        <%
             request.setAttribute("slide-name", SliderParamUtil.SETTINGS_ANIMATION_SPEED);
             request.setAttribute("slide-value", animationSpeedValue);
         %>	
@@ -81,14 +66,19 @@
         <%
             request.setAttribute("slide-name", SliderParamUtil.SETTINGS_START_SLIDE);
             request.setAttribute("slide-value", startSlideValue);
-            request.setAttribute("slide-property", "slider-start-slide");
         %>	
         <jsp:include page="/jsps/config/util/settings_field.jsp"></jsp:include>
 
         <%
             request.setAttribute("slide-name", SliderParamUtil.SETTINGS_RANDOM_SLIDE);
             request.setAttribute("slide-value", randomSlideValue);
-            request.setAttribute("slide-property", "slider-random-slide");
+            request.setAttribute("slide-property", "slider-option-true-false");
+        %>	
+        <jsp:include page="/jsps/config/util/settings_field.jsp"></jsp:include>
+        
+        <%
+            request.setAttribute("slide-name", SliderParamUtil.SETTINGS_NUMBER_ANIMATE);
+            request.setAttribute("slide-value", slidesToAnimate);
         %>	
         <jsp:include page="/jsps/config/util/settings_field.jsp"></jsp:include>
 

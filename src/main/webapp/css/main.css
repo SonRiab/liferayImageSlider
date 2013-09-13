@@ -16,3 +16,12 @@
 .ltr .aui-column, .rtl .aui-column-last{
     margin: 10px 0;
 }
+
+.rotterdam-slider-portlet .caroufredsel_wrapper {
+    cursor: default !important;
+}
+
+.rotterdam-slider-portlet .clearfix {
+    float: none;
+    clear: both;
+}

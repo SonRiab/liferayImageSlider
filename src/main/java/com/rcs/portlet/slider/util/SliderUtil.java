@@ -36,12 +36,17 @@ import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.theme.ThemeDisplay;
 import com.liferay.portlet.PortletPreferencesFactoryUtil;
 import com.rcs.portlet.slider.model.Slide;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.jsoup.Jsoup;
 
 /**
  * @author Rajesh
  *
  */
 public class SliderUtil {
+    
+    private static Log _LOG = LogFactory.getLog(SliderUtil.class);
 
     public static List<Slide> getSlides(PortletRequest request,
             PortletResponse response)
@@ -121,6 +126,7 @@ public class SliderUtil {
 
         StringBuilder slidesBuilder = new StringBuilder();
         for (Slide slide : slides) {
+            slidesBuilder.append("<div class=\"rcs-slide\" id=\"slide").append(slide.getId()).append("\">");
             
             if (Validator.isNotNull(slide.getLink())) {
                 slidesBuilder.append("<a href=\"").append(slide.getLink());
@@ -129,14 +135,22 @@ public class SliderUtil {
                 }
                 slidesBuilder.append("\">");
             }
-            
-            slidesBuilder.append("<img src=\"").append(slide.getImageUrl())
-                    .append("\" title=\"#slide-desc").append(slide.getId())
-                    .append("\" />");
-            
+
+            slidesBuilder.append("<img src=\"").append(slide.getImageUrl());
+            if (Validator.isNotNull(slide.getTitle())) {
+                slidesBuilder.append("\" title=\"").append(slide.getTitle());
+            }
+            if (Validator.isNotNull(slide.getDesc())) {
+                slidesBuilder.append("\" alt=\"")
+                        .append(Jsoup.parse(slide.getDesc()).text());
+            }
+            slidesBuilder.append("\" />");
+
             if (Validator.isNotNull(slide.getLink())) {
                 slidesBuilder.append("</a>");
             }
+            
+            slidesBuilder.append("</div>");
         }// end slides for
 
         return slidesBuilder.toString();
@@ -151,7 +165,7 @@ public class SliderUtil {
 
         StringBuilder captionBuilder = new StringBuilder();
         for (Slide slide : slides) {
-            captionBuilder.append("<div id=\"slide-desc").append(slide.getId()).append("\">");
+            captionBuilder.append("<div class=\"rcs-slide-desc\" id=\"slide-desc").append(slide.getId()).append("\">");
             if (Validator.isNotNull(slide.getDesc())) {
                 captionBuilder.append(slide.getDesc());
             }
@@ -160,88 +174,430 @@ public class SliderUtil {
         return captionBuilder.toString();
     }
 
-    public static String buildSettings(PortletRequest renderRequest,
+    /**
+     * 
+     * @param namespace
+     * @param wrapperWidth
+     * @param wrapperHeight
+     * @param itemWidth
+     * @param itemHeight
+     * @param effectSelected
+     * @param animationSpeed
+     * @param pauseTime
+     * @param startSlide
+     * @param randomSlide
+     * @param directionNav
+     * @param controlNav
+     * @param keyboardNav
+     * @param pauseOnHover
+     * @param manualAdvance
+     * @param synchronise
+     * @param synchroniseOptions
+     * @return 
+     */
+    private static String buildSettings(
+            String  namespace,
+            String  wrapperWidth,
+            String  wrapperHeight,
+            String  numberItems,
+            String  itemWidth,
+            String  itemHeight,
+            String  numberAnimate,
+            String  effectSelected,
+            String  animationSpeed,
+            String  pauseTime,
+            String  startSlide,
+            String  randomSlide,
+            String  directionNav,
+            String  controlNav,
+            String  keyboardNav,
+            String  pauseOnHover,
+            String  manualAdvance,
+            boolean synchronise,
+            String  synchroniseOptions,
+            boolean enableSwipe) {
+
+        StringBuilder settings = new StringBuilder();
+        String replaceThis = "";
+        
+        // parse boolean values first
+        boolean useDirectNav = false;
+        if(Validator.isNotNull(directionNav)
+                && ("true".equalsIgnoreCase(directionNav) 
+                    || "false".equalsIgnoreCase(directionNav))) {
+            useDirectNav = Boolean.parseBoolean(directionNav);
+        }
+        
+        boolean useKeyboardNav = false;
+        if (Validator.isNotNull(keyboardNav)
+                && ("true".equalsIgnoreCase(keyboardNav) 
+                    || "false".equalsIgnoreCase(keyboardNav))) {
+            useKeyboardNav = Boolean.parseBoolean(keyboardNav);
+        }
+        
+        boolean useControlNav = false;
+        if (Validator.isNotNull(controlNav)
+                && ("true".equalsIgnoreCase(controlNav) 
+                    || "false".equalsIgnoreCase(controlNav))) {
+            useControlNav = Boolean.parseBoolean(controlNav);
+        }
+        
+        boolean doPauseOnHover = false;
+        if (Validator.isNotNull(pauseOnHover)
+                && ("true".equalsIgnoreCase(pauseOnHover) 
+                    || "false".equalsIgnoreCase(pauseOnHover))) {
+            doPauseOnHover = Boolean.parseBoolean(pauseOnHover);
+        }
+        
+        boolean doRandomSlide = false;
+        if (Validator.isNotNull(randomSlide)
+                && ("true".equalsIgnoreCase(randomSlide) 
+                    || "false".equalsIgnoreCase(pauseOnHover))) {
+            doRandomSlide = Boolean.parseBoolean(randomSlide);
+        }
+        
+        boolean manualNavOnly = false;
+        if (Validator.isNotNull(manualAdvance)
+                && ("true".equalsIgnoreCase(manualAdvance) 
+                    || "false".equalsIgnoreCase(manualAdvance))) {
+            manualNavOnly = Boolean.parseBoolean(manualAdvance);
+        }
+
+        // build the settings string
+        
+        /* The width of the carousel. If null, the width will be calculated.
+         * Use "variable" to automatically resize the carousel when scrolling 
+         * items with variable widths.  Use "auto" to measure the widthest item.
+         * Use a percentage value (e.g.: "90%") to automatically resize
+         * (and re-configurate) the carousel onWindowResize.
+         */
+        if (Validator.isNotNull(wrapperWidth)) {
+            if (Validator.isNumber(wrapperWidth)) {
+                settings.append("width:").append(wrapperWidth);
+            } else {
+                settings.append("width:'").append(wrapperWidth).append("'");
+            }
+        } else {
+            // even if this is the default value we append it to have a well defined beginning
+            settings.append("width:null");
+        }
+
+        /* The height of the carousel. If null, the height will be calculated.
+         * Use "variable" to automatically resize the carousel when scrolling 
+         * items with variable heights.  Use "auto" to measure the heightest item.
+         * Use a percentage value (e.g.: "90%") to automatically resize
+         * (and re-configurate) the carousel onWindowResize.
+         */
+        settings.append(", ");
+        if (Validator.isNotNull(wrapperHeight)) {
+            if (Validator.isNumber(wrapperHeight)) {
+                settings.append("height:").append(wrapperHeight);
+            } else {
+                settings.append("height:'").append(wrapperHeight).append("'");
+            }
+        } else {
+            settings.append("height:null");
+        }
+        
+        /**
+         * Use an JS string as selector for the carousel to synchronise.
+	 * Or use an JS array as selector and options for the carousel to synchronise:
+         * [string selector, boolean inheritOptions, boolean sameDirection, number deviation] 
+         * For example: ["#foo2", true, true, 0]
+	 * Or use an JS array as a collection of arrays.
+         */
+        if(synchronise) {
+            settings.append(", ");
+            settings.append("synchronise:").append(synchroniseOptions).append("");
+        }
+
+        /* A map of the configuration for the items */
+        settings.append(", items:{");
+        {
+            /* Number of visilbe items. If null, the number will be calculated.
+             * 
+             */
+            if (Validator.isNotNull(numberItems)) {
+                if(Validator.isNumber(numberItems)) {
+                    settings.append("visible:").append(numberItems);
+                } else {
+                    settings.append("visible:'").append(numberItems).append("'");
+                }
+            } else {
+                // even if this is the default value we append it to have a well defined beginning
+                settings.append("visible:null");
+            }
+            
+            
+           /* The nth item to start the carousel. Hint: This can also be a negative number.
+            * Use "random" to let the plugin pick a randon item to start the carousel.
+            */
+            if (Validator.isNotNull(startSlide)) {
+                settings.append(", ");
+                if(doRandomSlide) {
+                    settings.append("start:'random'");
+                } else if(Validator.isNumber(startSlide)) {
+                    settings.append("start:").append(startSlide);
+                } 
+            }
+
+            
+            // TODO change this to a new setting
+            /* The width of the items. If null, the width will be measured.
+             * "variable" creates a carousel that supports variable item-widths.
+             * Use a percentage value (e.g.: "90%") to automatically resize
+             * (and re-configurate) the carousel onWindowResize.
+             */
+            if (Validator.isNotNull(itemWidth)) {
+                settings.append(", ");
+                if (Validator.isNumber(itemWidth)) {
+                    settings.append("width:").append(itemWidth);
+                } else {
+                    settings.append("width:'").append(itemWidth).append("'");
+                }
+            }
+
+            // TODO change this to a new setting
+            /* The height of the items. If null, the height will be measured.
+             * "variable" creates a carousel that supports variable item-heights.
+             * Use a percentage value (e.g.: "90%") to automatically resize
+             * (and re-configurate) the carousel onWindowResize.
+             */
+            if (Validator.isNotNull(itemHeight)) {
+                settings.append(", ");
+                if (Validator.isNumber(itemHeight)) {
+                    settings.append("height:").append(itemHeight);
+                } else {
+                    settings.append("height:'").append(itemHeight).append("'");
+                }
+            }
+        }
+        settings.append("}");
+
+        /* A map of the configuration used for general scrolling */
+        settings.append(", scroll:{");
+        {
+            /* Number of items to scroll. If null, the number of visible items is used. */
+            if (Validator.isNotNull(numberAnimate) && Validator.isNumber(numberAnimate)) {
+                settings.append("items:").append(numberAnimate);
+            } else {
+                // even if this is the default value we append it to have a well defined beginning
+                settings.append("items:null");
+            }
+            
+            /* Indicates which effect to use for the transition.
+             * Possible values: "none", "scroll", "directscroll", "fade", 
+             * "crossfade", "cover", "cover-fade", "uncover" or "uncover-fade".
+             */
+            if (Validator.isNotNull(effectSelected)) {
+                settings.append(", ");
+                settings.append("fx:'").append(effectSelected).append("'");
+            }
+            
+            /* Indicates which easing function to use for the transition.
+             * jQuery defaults: "linear" and "swing", built in: "quadratic", "
+             * cubic" and "elastic"
+             */
+            if (Validator.isNotNull(replaceThis)) {
+                settings.append(", ");
+                settings.append("easing:'").append(replaceThis).append("'");
+            }
+            
+            /* Determines the duration of the transition in milliseconds. */
+            if (Validator.isNotNull(animationSpeed) && 
+                    Validator.isNumber(animationSpeed)) {
+                settings.append(", ");
+                settings.append("duration:").append(animationSpeed);
+            }
+            
+            /* Determines whether the timeout between transitions should be paused "onMouseOver".
+             * Use "resume" to let the timeout resume instead of restart "onMouseOut".
+             * Use "immediate" to immediately stop "onMouseOver" and resume "onMouseOut" a scrolling carousel.
+             * Use "immediate-resume" for both the options above.
+             */
+            if (doPauseOnHover) {
+                settings.append(", ");
+                settings.append("pauseOnHover:").append(pauseOnHover);
+            } else if (Validator.isNotNull(pauseOnHover)) {
+                settings.append(", ");
+                settings.append("pauseOnHover:'").append(pauseOnHover).append("'");
+            }
+            
+        }
+        settings.append("}");
+        
+        /* A map of the configuration used for automatic scrolling */
+        settings.append(", auto:{");
+        {
+            /* Determines whether the carousel should scroll automatically or not. */
+            if (manualNavOnly) {
+                settings.append("play:false");
+            } else {
+                settings.append("play:true");
+            }
+            
+            /* Determines whether the carousel should scroll automatically or not. */
+            if (Validator.isNotNull(pauseTime) &&
+                    Validator.isNumber(pauseTime)) {
+                settings.append(", ");
+                settings.append("timeoutDuration:").append(pauseTime);
+            }
+            
+            /* Determines whether the carousel should scroll automatically or not. */
+            if (Validator.isNotNull(pauseTime) &&
+                    Validator.isNumber(pauseTime)) {
+                settings.append(", ");
+                settings.append("delay:").append(pauseTime);
+            }
+        }
+        settings.append("}");
+        
+        if(useDirectNav) {
+            /* A map of the configuration used for scrolling backwards using the "previous"
+             * button or key 
+             */
+            settings.append(", prev:{");
+            {
+                settings.append("button:'#").append(namespace).append("directionNav > .prevNav'");
+                if(useKeyboardNav) {
+                    settings.append(", ");
+                    settings.append("key:'left'");
+                }
+            }
+            settings.append("}");
+
+            /* A map of the configuration used for scrolling forward using the "next" 
+             * button or key 
+             */
+            settings.append(", next:{");
+            {
+                settings.append("button:'#").append(namespace).append("directionNav > .nextNav'");
+                if(useKeyboardNav) {
+                    settings.append(", ");
+                    settings.append("key:'right'");
+                }
+            }
+            settings.append("}");
+        }
+        
+        if (useControlNav) {
+            /* A map of the configuration used for scrolling via the "pagination" 
+             * buttons/bullets or keys 
+             */
+            settings.append(", pagination:{");
+            {
+                settings.append("container:'#").append(namespace).append("pagination'");
+                if(useKeyboardNav) {
+                    settings.append(", ");
+                    settings.append("key:").append(keyboardNav);
+                }
+            }
+            settings.append("}");
+        }
+        
+        if(enableSwipe) {
+            /* A map of the configuration used for scrolling via swiping (on touch-devices) 
+             * or dragging (using a mouse) 
+             */
+            settings.append(", swipe:{");
+            {
+                settings.append("onTouch:true");
+                settings.append(", ");
+                settings.append("onMouse:true");
+            }
+            settings.append("}");
+        }
+        
+        _LOG.debug(settings);
+
+        return settings.toString();
+    }
+
+    /**
+     * Build the settings needed for the carousel/slider
+     *
+     * @param renderRequest
+     * @param renderResponse
+     * @return The settings for the carousel
+     * @throws PortalException
+     * @throws SystemException
+     */
+    public static String buildSliderSettings(PortletRequest renderRequest,
             PortletResponse renderResponse)
             throws PortalException, SystemException {
 
+        /*
+         * http://caroufredsel.dev7studios.com/configuration.php
+         */
+        PortletPreferences preferences = SliderUtil.getPreference(
+                renderRequest, null);
+        
+        String syncOptions = new StringBuilder("['#")
+                .append(renderResponse.getNamespace())
+                .append("caption', false, true, 0]").toString();
+        
+        String disableCaption = preferences.getValue(SliderParamUtil.SETTINGS_DISABLE_CAPTION, "false");
+        boolean synchronise = true;
+        if(Validator.isNotNull(disableCaption)
+                && ("true".equalsIgnoreCase(disableCaption) 
+                    || "false".equalsIgnoreCase(disableCaption))) {
+            synchronise = !Boolean.parseBoolean(disableCaption);
+        }
+        
+        return buildSettings(
+                renderResponse.getNamespace(),
+                preferences.getValue(SliderParamUtil.SETTINGS_SLIDER_WIDTH, null),
+                preferences.getValue(SliderParamUtil.SETTINGS_SLIDER_HEIGHT, null),
+                preferences.getValue(SliderParamUtil.SETTINGS_NUMBER_SLIDES, null),
+                preferences.getValue(SliderParamUtil.SETTINGS_SLIDER_ITEM_WIDTH, null),
+                preferences.getValue(SliderParamUtil.SETTINGS_SLIDER_ITEM_HEIGHT, null),
+                preferences.getValue(SliderParamUtil.SETTINGS_NUMBER_ANIMATE, null),
+                preferences.getValue(SliderParamUtil.SETTINGS_EFFECT, "random"),
+                preferences.getValue(SliderParamUtil.SETTINGS_ANIMATION_SPEED, "500"),
+                preferences.getValue(SliderParamUtil.SETTINGS_PAUSE_TIME, "3000"),
+                preferences.getValue(SliderParamUtil.SETTINGS_START_SLIDE, "0"),
+                preferences.getValue(SliderParamUtil.SETTINGS_RANDOM_SLIDE, "false"),
+                preferences.getValue(SliderParamUtil.SETTINGS_DIRECTION_NAV, "true"),
+                preferences.getValue(SliderParamUtil.SETTINGS_CONTROL_NAV, "true"),
+                preferences.getValue(SliderParamUtil.SETTINGS_KEYBOARD_NAV, "true"),
+                preferences.getValue(SliderParamUtil.SETTINGS_PAUSE_ONHOVER, "true"),
+                preferences.getValue(SliderParamUtil.SETTINGS_MANUAL_ADVANCE, "false"),
+                synchronise,
+                syncOptions,
+                true);
+    }
+
+    public static String buildCaptionSettings(PortletRequest renderRequest,
+            PortletResponse renderResponse)
+            throws PortalException, SystemException {
+
+        /*
+         * http://caroufredsel.dev7studios.com/configuration.php
+         */
         PortletPreferences preferences = SliderUtil.getPreference(
                 renderRequest, null);
 
-        // Slides Animation
-        String effectSelectedValue = preferences.getValue(
-                SliderParamUtil.SETTINGS_EFFECT, "random");
-        String slicesValue = preferences.getValue(
-                SliderParamUtil.SETTINGS_SLICES, "15");
-        String boxColumnValue = preferences.getValue(
-                SliderParamUtil.SETTINGS_BOX_COLUMN, "8");
-        String animationSpeedValue = preferences.getValue(
-                SliderParamUtil.SETTINGS_ANIMATION_SPEED, "500");
-        String pauseTimeValue = preferences.getValue(
-                SliderParamUtil.SETTINGS_PAUSE_TIME, "3000");
-        String startSlideValue = preferences.getValue(
-                SliderParamUtil.SETTINGS_START_SLIDE, "0");
-        String randomSlideValue = preferences.getValue(
-                SliderParamUtil.SETTINGS_RANDOM_SLIDE, "false");
-
-        // Slides Navigation
-        String directionNav = preferences.getValue(
-                SliderParamUtil.SETTINGS_DIRECTION_NAV, "true");
-        String prevTextValue = preferences.getValue(
-                SliderParamUtil.SETTINGS_PREVIOUS_TEXT, "Prev");
-        String nextTextValue = preferences.getValue(
-                SliderParamUtil.SETTINGS_NEXT_TEXT, "Next");
-        String autoHideNav = preferences.getValue(
-                SliderParamUtil.SETTINGS_AUTO_HIDE_NAV, "false");
-        String controlNavValue = preferences.getValue(
-                SliderParamUtil.SETTINGS_CONTROL_NAV, "true");
-        String keyboardNavValue = preferences.getValue(
-                SliderParamUtil.SETTINGS_KEYBOARD_NAV, "true");
-        String pauseOnHoverValue = preferences.getValue(
-                SliderParamUtil.SETTINGS_PAUSE_ONHOVER, "true");
-        String manualAdvanceValue = preferences.getValue(
-                SliderParamUtil.SETTINGS_MANUAL_ADVANCE, "false");
-        String opacityValue = preferences.getValue(
-                SliderParamUtil.SETTINGS_OPACITY, "0.8");
-
-        StringBuilder settings = new StringBuilder();
-        settings.append("effect:'").append(effectSelectedValue).append("'");
-        settings.append(", slices:").append(slicesValue);
-        settings.append(", boxCols:").append(boxColumnValue);
-
-        if (Validator.isNotNull(animationSpeedValue) && Validator.isNumber(animationSpeedValue)) {
-            settings.append(", animSpeed:").append(animationSpeedValue);
-        }
-        if (Validator.isNotNull(pauseTimeValue) && Validator.isNumber(pauseTimeValue)) {
-            settings.append(", pauseTime:").append(pauseTimeValue);
-        }
-        if (Validator.isNull(startSlideValue)
-                && Validator.isNumber(startSlideValue)) {
-            settings.append(", startSlide:").append(startSlideValue);
-        }
-
-        if (Validator.isNotNull(randomSlideValue) && Validator.isNumber(randomSlideValue)) {
-            settings.append(", randomStart:").append(randomSlideValue);
-        }
-
-        settings.append(", directionNav:").append(directionNav);
-        settings.append(", directionNavHide:").append(autoHideNav);
-
-        if (Validator.isNull(prevTextValue)) {
-            settings.append(", prevText:'").append(prevTextValue).append("'");
-        }
-        if (Validator.isNull(nextTextValue)) {
-            settings.append(", nextText:'").append(nextTextValue).append("'");
-        }
-
-        settings.append(", controlNav:").append(controlNavValue);
-        settings.append(", keyboardNav:").append(keyboardNavValue);
-        settings.append(", pauseOnHover:").append(pauseOnHoverValue);
-        settings.append(", manualAdvance:").append(manualAdvanceValue);
-        
-        // this option seems to be removed in nivo slider version 3.2
-        //settings.append(", captionOpacity:").append(opacityValue);
-        
-        return settings.toString();
+        return buildSettings(
+                renderResponse.getNamespace(),
+                preferences.getValue(SliderParamUtil.SETTINGS_CAPTION_WIDTH, null),
+                preferences.getValue(SliderParamUtil.SETTINGS_CAPTION_HEIGHT, null),
+                preferences.getValue(SliderParamUtil.SETTINGS_NUMBER_SLIDES, null),
+                preferences.getValue(SliderParamUtil.SETTINGS_CAPTION_ITEM_WIDTH, null),
+                preferences.getValue(SliderParamUtil.SETTINGS_CAPTION_ITEM_HEIGHT, null),
+                preferences.getValue(SliderParamUtil.SETTINGS_NUMBER_ANIMATE, null),
+                "crossfade",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "true",
+                false,
+                "",
+                false);
     }
 
     public static Slide getSlide(PortletRequest request, String slideId)

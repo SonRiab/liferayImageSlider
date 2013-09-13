@@ -64,16 +64,16 @@
         %>	
         <jsp:include page="/jsps/config/util/settings_field.jsp"></jsp:include>
 
-        <%
+        <%--
             request.setAttribute("slide-name", SliderParamUtil.SETTINGS_AUTO_HIDE_NAV);
             request.setAttribute("slide-value", autoHideNav);
             request.setAttribute("slide-property", "slider-option-true-false");
-        %>	
-        <jsp:include page="/jsps/config/util/settings_field.jsp"></jsp:include>
+        --%>	
+        <%--<jsp:include page="/jsps/config/util/settings_field.jsp"></jsp:include>--%>
 
         <%
             request.setAttribute("slide-name", SliderParamUtil.SETTINGS_CONTROL_NAV);
-            request.setAttribute("slide-value", autoHideNav);
+            request.setAttribute("slide-value", controlNavValue);
             request.setAttribute("slide-property", "slider-option-true-false");
         %>	
         <jsp:include page="/jsps/config/util/settings_field.jsp"></jsp:include>

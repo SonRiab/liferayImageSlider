@@ -23,11 +23,18 @@
 
     PortletPreferences preferences = SliderUtil.getPreference(renderRequest, portletResource);
 
-    String themeValue = preferences.getValue(SliderParamUtil.SETTINGS_THEME, "default");
-    String opacityValue = preferences.getValue(SliderParamUtil.SETTINGS_OPACITY, "0.8");
-    String addCssClassValue = preferences.getValue(SliderParamUtil.SETTINGS_ADDITIONAL_CSS_CLASS, "");
-    String widthValue = preferences.getValue(SliderParamUtil.SETTINGS_SLIDE_WIDTH, "618px");
-    String heightValue = preferences.getValue(SliderParamUtil.SETTINGS_SLIDE_HEIGHT, "246px");
+    String theme = preferences.getValue(SliderParamUtil.SETTINGS_THEME, "default");
+    String addCssClass = preferences.getValue(SliderParamUtil.SETTINGS_ADDITIONAL_CSS_CLASS, "");
+    String numberSlides = preferences.getValue(SliderParamUtil.SETTINGS_NUMBER_SLIDES, "");
+    String sliderWidth = preferences.getValue(SliderParamUtil.SETTINGS_SLIDER_WIDTH, "618");
+    String sliderHeight = preferences.getValue(SliderParamUtil.SETTINGS_SLIDER_HEIGHT, "246");
+    String sliderItemWidth = preferences.getValue(SliderParamUtil.SETTINGS_SLIDER_ITEM_WIDTH, "618");
+    String sliderItemHeight = preferences.getValue(SliderParamUtil.SETTINGS_SLIDER_ITEM_HEIGHT, "246");
+    String disableCaption = preferences.getValue(SliderParamUtil.SETTINGS_DISABLE_CAPTION, "false");
+    String captionWidth = preferences.getValue(SliderParamUtil.SETTINGS_CAPTION_WIDTH, "618");
+    String captionHeight = preferences.getValue(SliderParamUtil.SETTINGS_CAPTION_HEIGHT, "246");
+    String captionItemWidth = preferences.getValue(SliderParamUtil.SETTINGS_CAPTION_ITEM_WIDTH, "618");
+    String captionItemHeight = preferences.getValue(SliderParamUtil.SETTINGS_CAPTION_ITEM_HEIGHT, "246");
 
 %>
 
@@ -44,33 +51,75 @@
 
         <%
             request.setAttribute("slide-name", SliderParamUtil.SETTINGS_THEME);
-            request.setAttribute("slide-value", themeValue);
+            request.setAttribute("slide-value", theme);
             request.setAttribute("slide-property", "slider-theme");
         %>	
         <jsp:include page="/jsps/config/util/settings_field.jsp"></jsp:include>
 
         <%
-            request.setAttribute("slide-name", SliderParamUtil.SETTINGS_OPACITY);
-            request.setAttribute("slide-value", opacityValue);
-            request.setAttribute("slide-property", "slider-opacity");
-        %>	
-        <jsp:include page="/jsps/config/util/settings_field.jsp"></jsp:include>
-
-        <%
             request.setAttribute("slide-name", SliderParamUtil.SETTINGS_ADDITIONAL_CSS_CLASS);
-            request.setAttribute("slide-value", addCssClassValue);
+            request.setAttribute("slide-value", addCssClass);
+        %>	
+        <jsp:include page="/jsps/config/util/settings_field.jsp"></jsp:include>
+        
+        <%
+            request.setAttribute("slide-name", SliderParamUtil.SETTINGS_NUMBER_SLIDES);
+            request.setAttribute("slide-value", numberSlides);
         %>	
         <jsp:include page="/jsps/config/util/settings_field.jsp"></jsp:include>
 
         <%
-            request.setAttribute("slide-name", SliderParamUtil.SETTINGS_SLIDE_WIDTH);
-            request.setAttribute("slide-value", widthValue);
+            request.setAttribute("slide-name", SliderParamUtil.SETTINGS_SLIDER_WIDTH);
+            request.setAttribute("slide-value", sliderWidth);
         %>	
         <jsp:include page="/jsps/config/util/settings_field.jsp"></jsp:include>
 
         <%
-            request.setAttribute("slide-name", SliderParamUtil.SETTINGS_SLIDE_HEIGHT);
-            request.setAttribute("slide-value", heightValue);
+            request.setAttribute("slide-name", SliderParamUtil.SETTINGS_SLIDER_HEIGHT);
+            request.setAttribute("slide-value", sliderHeight);
+        %>	
+        <jsp:include page="/jsps/config/util/settings_field.jsp"></jsp:include>
+        
+        <%
+            request.setAttribute("slide-name", SliderParamUtil.SETTINGS_SLIDER_ITEM_WIDTH);
+            request.setAttribute("slide-value", sliderItemWidth);
+        %>	
+        <jsp:include page="/jsps/config/util/settings_field.jsp"></jsp:include>
+
+        <%
+            request.setAttribute("slide-name", SliderParamUtil.SETTINGS_SLIDER_ITEM_HEIGHT);
+            request.setAttribute("slide-value", sliderItemHeight);
+        %>	
+        <jsp:include page="/jsps/config/util/settings_field.jsp"></jsp:include>
+        
+        <%
+            request.setAttribute("slide-name", SliderParamUtil.SETTINGS_DISABLE_CAPTION);
+            request.setAttribute("slide-value", disableCaption);
+            request.setAttribute("slide-property", "slider-option-true-false");
+        %>	
+        <jsp:include page="/jsps/config/util/settings_field.jsp"></jsp:include>
+        
+        <%
+            request.setAttribute("slide-name", SliderParamUtil.SETTINGS_CAPTION_WIDTH);
+            request.setAttribute("slide-value", captionWidth);
+        %>	
+        <jsp:include page="/jsps/config/util/settings_field.jsp"></jsp:include>
+
+        <%
+            request.setAttribute("slide-name", SliderParamUtil.SETTINGS_CAPTION_HEIGHT);
+            request.setAttribute("slide-value", captionHeight);
+        %>	
+        <jsp:include page="/jsps/config/util/settings_field.jsp"></jsp:include>
+        
+        <%
+            request.setAttribute("slide-name", SliderParamUtil.SETTINGS_CAPTION_ITEM_WIDTH);
+            request.setAttribute("slide-value", captionItemWidth);
+        %>	
+        <jsp:include page="/jsps/config/util/settings_field.jsp"></jsp:include>
+
+        <%
+            request.setAttribute("slide-name", SliderParamUtil.SETTINGS_CAPTION_ITEM_HEIGHT);
+            request.setAttribute("slide-value", captionItemHeight);
         %>	
         <jsp:include page="/jsps/config/util/settings_field.jsp"></jsp:include>
 

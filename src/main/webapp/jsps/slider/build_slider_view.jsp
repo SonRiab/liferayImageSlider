@@ -19,7 +19,8 @@
 <%		
     String slidesBuilder  = SliderUtil.buildSlides(renderRequest, renderResponse);
     String captionBuilder = SliderUtil.buildCaption(renderRequest, renderResponse);
-    String buildSettings  = SliderUtil.buildSettings(renderRequest, renderResponse);
+    String sliderSettings  = SliderUtil.buildSliderSettings(renderRequest, renderResponse);
+    String captionSettings  = SliderUtil.buildCaptionSettings(renderRequest, renderResponse);
     boolean displaySlide  = (slidesBuilder != null && !slidesBuilder.trim().equals(""));
 
     //Slides Themes
@@ -27,44 +28,56 @@
 
     String themeValue = preferences.getValue(SliderParamUtil.SETTINGS_THEME, "default");
     String addCssClassValue = preferences.getValue(SliderParamUtil.SETTINGS_ADDITIONAL_CSS_CLASS, "");
-    String opacityValue = preferences.getValue(SliderParamUtil.SETTINGS_OPACITY, "0.8");
-    String widthValue = preferences.getValue(SliderParamUtil.SETTINGS_SLIDE_WIDTH, "618px");
-    String heightValue = preferences.getValue(SliderParamUtil.SETTINGS_SLIDE_HEIGHT, "246px");
+    String widthValue = preferences.getValue(SliderParamUtil.SETTINGS_SLIDER_WIDTH, "618");
+    String heightValue = preferences.getValue(SliderParamUtil.SETTINGS_SLIDER_HEIGHT, "246");
+    String disableCaption = preferences.getValue(SliderParamUtil.SETTINGS_DISABLE_CAPTION, "false");
 
     if(Validator.isNull(widthValue))
-        widthValue = "618px";
+        widthValue = "618";
     if(Validator.isNull(heightValue))
-        heightValue = "246px";
+        heightValue = "246";
     themeValue = themeValue.toLowerCase();
     
     if(displaySlide) { 
-        String inlineStyle = new StringBuilder("width: ").append(widthValue).append(";")
-                .append("height: ").append(heightValue).append(";").toString();
+        String inlineStyle = new StringBuilder("width: ").append(widthValue).append("px;")
+                .append("height: ").append(heightValue).append("px;").toString();
         
 
 %>
-<div class="slider-wrapper theme-<%=themeValue%> <%=addCssClassValue%>" style="<%= inlineStyle %>">
-    <div class="ribbon"></div>
-    <div id="<portlet:namespace />slider" class="nivoSlider" style="<%= inlineStyle %>">
+<!--<link rel="stylesheet" href="<%=renderRequest.getContextPath()%>/css/<%=themeValue%>/<%=themeValue%>.css" type="text/css" media="screen" />-->
+<div class="theme-<%=themeValue%> <%=addCssClassValue%>" style="<%= inlineStyle %>">
+    <div id="<portlet:namespace />slider" class="slider-wrapper">
         <%= slidesBuilder %>
     </div>
-    <div id="<portlet:namespace />htmlcaption" class="nivo-html-caption">
+    <div class="clearfix"></div>
+<%
+    if(!"true".equalsIgnoreCase(disableCaption)) {
+%>
+    <div id="<portlet:namespace />caption" class="slider-desc-wrapper" >
         <%= captionBuilder %>
     </div>
+<%
+    }
+%>
+    <div id="<portlet:namespace />directionNav" class="directionNav" >
+        <a class="prevNav"></a>
+        <a class="nextNav"></a>
+    </div>
+    <div id="<portlet:namespace />pagination" class="pagination"></div>
 </div>
 <%  } else { %>
 <center><b><liferay-ui:message key="message-no-slides-configured"></liferay-ui:message></b></center>
 <%  } %>
 
-<link rel="stylesheet" href="<%=renderRequest.getContextPath()%>/css/<%=themeValue%>/<%=themeValue%>.css" type="text/css" media="screen" />
-<style type="text/css">
-    .nivo-caption {
-        opacity: <%= opacityValue %>;
-    }
-</style>
-
 <aui:script>
     $(document).ready(function() {
-        $('#<portlet:namespace />slider').nivoSlider({<%=buildSettings%>});
+        $('#<portlet:namespace />slider').carouFredSel({<%=sliderSettings%>});
+<%
+    if(!"true".equalsIgnoreCase(disableCaption)) {
+%>
+        $('#<portlet:namespace />caption').carouFredSel({<%=captionSettings%>});
+<%
+    }
+%>
     });
 </aui:script>
