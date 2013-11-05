@@ -16,10 +16,37 @@
  */
  --%>
  
-<%@page import="javax.portlet.PortletResponse"%>
-<%@page import="javax.portlet.PortletRequest"%>
 <%@ include file="/init.jsp"%>
 
 <portlet:defineObjects />
 
-<jsp:include page="/jsps/slider/build_slider_view.jsp"></jsp:include>
+<%  
+    Log log = LogFactoryUtil.getLog("view.jsp");
+    
+    PortletPreferences preferences = SliderUtil.getPreference(renderRequest, null);
+    boolean isSignedIn = themeDisplay.isSignedIn();
+    boolean hasViewPermission = false;
+    
+    String viewPermission = preferences.getValue(SliderParamUtil.SETTINGS_VIEW_PERMISSION, "both");
+    
+    if(Validator.equals(viewPermission, "both") 
+            || (Validator.equals(viewPermission, "user-only") && isSignedIn)
+            || (Validator.equals(viewPermission, "guest-only") && !isSignedIn)) {
+        hasViewPermission = true;
+    }
+    
+    log.error("hasViewPermission: " + hasViewPermission);
+    log.error("viewPermission: " + viewPermission);
+    log.error("isSignedIn: " + isSignedIn);
+    
+    if(hasViewPermission) {
+%>
+    <jsp:include page="/jsps/slider/build_slider_view.jsp"></jsp:include>
+<%  } else if(!themeDisplay.getPermissionChecker().isCompanyAdmin()) { %>
+    <aui:script>
+        AUI().ready('node', function(A) {
+            console.log('p_p_id<portlet:namespace />');
+            A.one('#p_p_id<portlet:namespace />').hide();
+        });
+    </aui:script>
+<%  } %>

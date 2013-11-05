@@ -4,7 +4,6 @@
 <liferay-portlet-app>
     <portlet>
         <portlet-name>RCSSlider</portlet-name>
-        <icon>/nivo.png</icon>
         <configuration-action-class>com.rcs.portlet.slider.action.ConfigurationActionImpl</configuration-action-class>
         <instanceable>true</instanceable>
         <header-portlet-css>/css/main.css</header-portlet-css>

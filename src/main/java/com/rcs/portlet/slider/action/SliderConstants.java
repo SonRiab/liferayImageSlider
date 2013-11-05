@@ -36,6 +36,7 @@ public interface SliderConstants {
     String TAB_SLIDES_ANIMATION = "slideAnimation";
     String TAB_SLIDES_LOOK_AND_FEEL = "slideLookAndFeel";
     String TAB_SLIDES_NAVIGATION = "slideNav";
+    String TAB_GENERAL = "general";
     String SLIDE_MOVE_DOWN = "SLIDE_MOVE_DOWN";
     String SLIDE_MOVE_UP = "SLIDE_MOVE_UP";
 }

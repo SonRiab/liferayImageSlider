@@ -31,13 +31,13 @@ import javax.portlet.PortletResponse;
 
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.theme.ThemeDisplay;
 import com.liferay.portlet.PortletPreferencesFactoryUtil;
 import com.rcs.portlet.slider.model.Slide;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.jsoup.Jsoup;
 
 /**
@@ -46,7 +46,7 @@ import org.jsoup.Jsoup;
  */
 public class SliderUtil {
     
-    private static Log _LOG = LogFactory.getLog(SliderUtil.class);
+    private static Log _LOG = LogFactoryUtil.getLog(SliderUtil.class);
 
     public static List<Slide> getSlides(PortletRequest request,
             PortletResponse response)

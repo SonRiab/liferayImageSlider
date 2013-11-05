@@ -37,6 +37,8 @@
 
 <%@page import="javax.portlet.PortletURL"%>
 <%@page import="javax.portlet.RenderRequest"%>
+<%@page import="javax.portlet.PortletResponse"%>
+<%@page import="javax.portlet.PortletRequest"%>
 <%@page import="javax.portlet.PortletPreferences"%>
 
 <%@page import="java.util.Locale"%>
@@ -47,6 +49,9 @@
 <%@page import="com.rcs.portlet.slider.model.Slide"%>
 <%@page import="com.rcs.portlet.slider.util.SliderUtil"%>
 <%@page import="com.rcs.portlet.slider.util.SliderParamUtil"%>
+
+<%@page import="com.liferay.portal.kernel.log.LogFactoryUtil"%>
+<%@page import="com.liferay.portal.kernel.log.Log"%>
 
 <%@taglib uri="http://liferay.com/tld/ui" prefix="liferay-ui"%>
 <%@taglib uri="http://java.sun.com/portlet" prefix="portlet"%>

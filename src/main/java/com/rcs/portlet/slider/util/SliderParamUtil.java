@@ -1,6 +1,10 @@
 package com.rcs.portlet.slider.util;
 
 public interface SliderParamUtil {
+    /* general */
+    
+    String SETTINGS_VIEW_PERMISSION     = "settings-view-permission";
+    
     /* animation */
     String SETTINGS_EFFECT               = "settings-effect";
     String SETTINGS_ANIMATION_SPEED      = "settings-animation-speed";
