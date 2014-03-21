@@ -59,7 +59,7 @@
 <%
     }
 %>
-    <div id="<portlet:namespace />directionNav" class="directionNav" >
+    <div id="<portlet:namespace />directionNav" class="directionNav" style="width: <%= widthValue %>px;">
         <a class="prevNav"></a>
         <a class="nextNav"></a>
     </div>
