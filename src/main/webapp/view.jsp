@@ -35,9 +35,11 @@
         hasViewPermission = true;
     }
     
+    /*
     log.error("hasViewPermission: " + hasViewPermission);
     log.error("viewPermission: " + viewPermission);
     log.error("isSignedIn: " + isSignedIn);
+     */
     
     if(hasViewPermission) {
 %>
