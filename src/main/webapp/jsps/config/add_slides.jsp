@@ -16,24 +16,24 @@
  */
 --%>
 
+<%@page import="javax.portlet.PortletMode"%>
+<%@page import="com.liferay.portal.kernel.portlet.LiferayWindowState"%>
+<%@page import="com.liferay.portlet.PortletURLFactoryUtil"%>
+<%@page import="com.liferay.portlet.PortletURLFactoryUtil"%>
 <%@include file="/init.jsp" %>
 
 <%
-    long plid = themeDisplay.getPlid();
-    String portletId = themeDisplay.getPortletDisplay().getId();
-    String doAsUserId = String.valueOf(themeDisplay.getUserId());
-    String doAsGroupId = String.valueOf(themeDisplay.getScopeGroupId());
-
-    String connectorURL = themeDisplay.getURLPortal()
-            + "/html/js/editor/ckeditor/editor/filemanager/browser/liferay/browser.html?Connector=";
-
-    String resourceSelectorParam = "/c/portal/fckeditor?p_l_id=" + plid 
-            + "&p_p_id=" + HttpUtil.encodeURL(portletId)
-            + "&userId=" + HttpUtil.encodeURL(doAsUserId)
-            + "&doAsGroupId=" + HttpUtil.encodeURL(doAsGroupId);
-
-    connectorURL += HttpUtil.encodeURL(resourceSelectorParam);
-
+    String PORTLET_ID = "FileManagerPortlet_WAR_FileManagerPortlet";
+    String FILEMANAGER_MODE_PARAM = "file_view_mode";
+    String FILEMANAGER_ROOT_FOLDER_PARAM = "folderId";
+    long startpageLayoutId =  themeDisplay.getScopeGroup().getDefaultPublicPlid();
+    PortletURL portletUrl = PortletURLFactoryUtil.create(request, PORTLET_ID ,startpageLayoutId ,PortletRequest.RENDER_PHASE);
+    portletUrl.setWindowState(LiferayWindowState.MAXIMIZED);
+    portletUrl.setPortletMode(PortletMode.VIEW);
+    portletUrl.setParameter(FILEMANAGER_MODE_PARAM, "file-ckeditor");
+    portletUrl.setParameter(FILEMANAGER_ROOT_FOLDER_PARAM, "0");
+    String browser_url = portletUrl.toString();
+    
     String slideId = request.getParameter("slideParamId") != null ? request.getParameter("slideParamId") : "";
 
     String slideImage = "";				
@@ -94,7 +94,7 @@
     
     
     function selectImage() {
-        window.open('<%=connectorURL%>&CKEditorFuncNum='+refNumber, "mywindow", "scroll=1,status=1,menubar=1,width=700,height=550");
+        window.open('<%=browser_url%>&CKEditorFuncNum='+refNumber, "mywindow", "scroll=1,status=1,menubar=1,width=700,height=550");
     }
     
     function <portlet:namespace />initEditor() { 
