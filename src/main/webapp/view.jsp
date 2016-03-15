@@ -21,8 +21,6 @@
 <portlet:defineObjects />
 
 <%  
-    Log log = LogFactoryUtil.getLog("view.jsp");
-    
     PortletPreferences preferences = SliderUtil.getPreference(renderRequest, null);
     boolean isSignedIn = themeDisplay.isSignedIn();
     boolean hasViewPermission = false;
@@ -34,12 +32,6 @@
             || (Validator.equals(viewPermission, "guest-only") && !isSignedIn)) {
         hasViewPermission = true;
     }
-    
-    /*
-    log.error("hasViewPermission: " + hasViewPermission);
-    log.error("viewPermission: " + viewPermission);
-    log.error("isSignedIn: " + isSignedIn);
-     */
     
     if(hasViewPermission) {
 %>
