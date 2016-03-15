@@ -15,21 +15,24 @@
  * specific language governing permissions and limitations under the License.
  */
  --%>
-
+ 
 <%@ include file="/init.jsp"%>
 
-<%
+<portlet:defineObjects />
+
+<%  
+    PortletPreferences preferences = SliderUtil.getPreference(renderRequest, null);
     boolean isSignedIn = themeDisplay.isSignedIn();
     boolean hasViewPermission = false;
-
-    String viewPermission = portletPreferences.getValue(SliderParamUtil.SETTINGS_VIEW_PERMISSION, "both");
-
-    if(Validator.equals(viewPermission, "both")
+    
+    String viewPermission = preferences.getValue(SliderParamUtil.SETTINGS_VIEW_PERMISSION, "both");
+    
+    if(Validator.equals(viewPermission, "both") 
             || (Validator.equals(viewPermission, "user-only") && isSignedIn)
             || (Validator.equals(viewPermission, "guest-only") && !isSignedIn)) {
         hasViewPermission = true;
     }
-
+    
     if(hasViewPermission) {
 %>
     <jsp:include page="/jsps/slider/build_slider_view.jsp"></jsp:include>
