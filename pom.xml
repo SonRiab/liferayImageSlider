@@ -17,7 +17,7 @@
         <javax.servlet-jsp.version>2.2</javax.servlet-jsp.version>
         <javax.portlet.version>2.0</javax.portlet.version>
         <war.name>rcs-slider-portlet</war.name>
-        <liferay.version>6.1.1</liferay.version>
+        <liferay.version>6.2.5</liferay.version>
     </properties>
 
     <dependencies>
