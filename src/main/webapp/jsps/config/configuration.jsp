@@ -20,16 +20,16 @@
 
 <%
         String tabValue = ParamUtil.getString(request, "tab", "slides");
-        String tabValues = SliderConstants.TAB_SLIDES 
+        String tabValues = SliderConstants.TAB_SLIDES
                 + "," + SliderConstants.TAB_SLIDES_ANIMATION
-                + "," + SliderConstants.TAB_SLIDES_LOOK_AND_FEEL 
+                + "," + SliderConstants.TAB_SLIDES_LOOK_AND_FEEL
                 + "," + SliderConstants.TAB_SLIDES_NAVIGATION
                 + "," + SliderConstants.TAB_GENERAL;
-								 
-        //String tabNames = LanguageUtil.get(renderRequest.getLocale(), "slider-tabs");					 
+
+        //String tabNames = LanguageUtil.get(renderRequest.getLocale(), "slider-tabs");
 %>
 
-<liferay-portlet:renderURL portletConfiguration="true" var="slidesURL"></liferay-portlet:renderURL>
+<liferay-portlet:renderURL portletConfiguration="true" var="slidesURL" />
 
 <liferay-ui:tabs
     names="tab-slides,tab-slide-animation,tab-slide-look-and-feel,tab-slide-navigation,tab-general"

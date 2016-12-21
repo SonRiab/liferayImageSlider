@@ -23,7 +23,7 @@
 %>
 
 <liferay-portlet:actionURL portletConfiguration="true" var="actionURL" />
-<aui:form action="<%=actionURL.toString()%>" method="post" name="fm">
+<aui:form action="<%=actionURL%>" method="post" name="fm">
     <aui:input name="<%=SliderConstants.CMD%>" type="hidden"
             value="<%=SliderConstants.UPDATE_SETTINGS%>" />
     <aui:input name="tab" type="hidden"
@@ -33,7 +33,7 @@
         request.setAttribute("slide-value", viewPermission);
         request.setAttribute("slide-property", "slider-view-permission");
     %>
-    <jsp:include page="/jsps/config/util/settings_field.jsp"></jsp:include>
+    <jsp:include page="/jsps/config/util/settings_field.jsp"/>
 
     <aui:button-row>
         <aui:button name="saveButton" cssClass="save-btn" type="submit" value="save" />

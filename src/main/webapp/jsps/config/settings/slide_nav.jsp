@@ -34,7 +34,7 @@
 
 <aui:fieldset label="tab-slide-navigation">
 
-    <aui:form action="<%=actionURL.toString()%>" method="post" name="fm">
+    <aui:form action="<%=actionURL%>" method="post" name="fm">
 
         <aui:input name="<%=SliderConstants.CMD%>" type="hidden"
                 value="<%=SliderConstants.UPDATE_SETTINGS%>" />
@@ -46,19 +46,19 @@
             request.setAttribute("slide-value", directionNav);
             request.setAttribute("slide-property", "slider-option-true-false");
         %>
-        <jsp:include page="/jsps/config/util/settings_field.jsp"></jsp:include>
+        <jsp:include page="/jsps/config/util/settings_field.jsp"/>
 
         <%
             request.setAttribute("slide-name", SliderParamUtil.SETTINGS_PREVIOUS_TEXT);
             request.setAttribute("slide-value", prevTextValue);
         %>
-        <jsp:include page="/jsps/config/util/settings_field.jsp"></jsp:include>
+        <jsp:include page="/jsps/config/util/settings_field.jsp"/>
 
         <%
             request.setAttribute("slide-name", SliderParamUtil.SETTINGS_NEXT_TEXT);
             request.setAttribute("slide-value", nextTextValue);
         %>
-        <jsp:include page="/jsps/config/util/settings_field.jsp"></jsp:include>
+        <jsp:include page="/jsps/config/util/settings_field.jsp"/>
 
         <%--
             request.setAttribute("slide-name", SliderParamUtil.SETTINGS_AUTO_HIDE_NAV);
@@ -72,7 +72,7 @@
             request.setAttribute("slide-value", controlNavValue);
             request.setAttribute("slide-property", "slider-option-true-false");
         %>
-        <jsp:include page="/jsps/config/util/settings_field.jsp"></jsp:include>
+        <jsp:include page="/jsps/config/util/settings_field.jsp"/>
 
         <%
             request.setAttribute("slide-name", SliderParamUtil.SETTINGS_KEYBOARD_NAV);
@@ -80,21 +80,21 @@
             request.setAttribute("slide-property", "slider-option-true-false");
         %>
 
-        <jsp:include page="/jsps/config/util/settings_field.jsp"></jsp:include>
+        <jsp:include page="/jsps/config/util/settings_field.jsp"/>
 
         <%
             request.setAttribute("slide-name", SliderParamUtil.SETTINGS_PAUSE_ONHOVER);
             request.setAttribute("slide-value", pauseOnHoverValue);
             request.setAttribute("slide-property", "slider-option-true-false");
         %>
-        <jsp:include page="/jsps/config/util/settings_field.jsp"></jsp:include>
+        <jsp:include page="/jsps/config/util/settings_field.jsp"/>
 
         <%
             request.setAttribute("slide-name", SliderParamUtil.SETTINGS_MANUAL_ADVANCE);
             request.setAttribute("slide-value", manualAdvanceValue);
             request.setAttribute("slide-property", "slider-option-true-false");
         %>
-        <jsp:include page="/jsps/config/util/settings_field.jsp"></jsp:include>
+        <jsp:include page="/jsps/config/util/settings_field.jsp"/>
 
         <aui:button-row>
             <aui:button name="saveButton" cssClass="save-btn" type="submit" value="save" />

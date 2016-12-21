@@ -65,7 +65,7 @@
     <div id="<portlet:namespace />pagination" class="pagination"></div>
 </div>
 <%  } else { %>
-<center><b><liferay-ui:message key="message-no-slides-configured"></liferay-ui:message></b></center>
+<center><b><liferay-ui:message key="message-no-slides-configured"/></b></center>
 <%  } %>
 
 <aui:script>
