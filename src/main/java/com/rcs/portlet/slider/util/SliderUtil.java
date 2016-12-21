@@ -21,6 +21,7 @@ import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.util.ArrayUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.theme.ThemeDisplay;
@@ -608,7 +609,7 @@ public class SliderUtil {
 
         String[] values = portletPreferences.getValues(slideId, null);
 
-        if (Validator.isNotNull(values)) {
+        if (ArrayUtil.isNotEmpty(values)) {
             return getSlide(slideId, values);
         }
 

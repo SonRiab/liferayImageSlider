@@ -21,8 +21,6 @@
 
 <aui:fieldset label="tab-slides" cssClass="slides">
     <%
-        Locale  locale = renderRequest.getLocale();
-
         List<String> headerNames = new ArrayList<String>();
         headerNames.add(LanguageUtil.get(locale, "title"));
         headerNames.add(LanguageUtil.get(locale, "order"));
@@ -35,7 +33,7 @@
                         SearchContainer.DEFAULT_CUR_PARAM, SearchContainer.DEFAULT_DELTA, portletURL, headerNames,
                         "message-no-records");
 
-        portletURL.setParameter(searchContainer.getCurParam(), String.valueOf(searchContainer.getCurValue()));
+        portletURL.setParameter(searchContainer.getCurParam(), String.valueOf(searchContainer.getCur()));
 
         List<Slide> slides = SliderUtil.getSlides(renderRequest, resourceResponse);
         int count  = slides.size();
@@ -62,10 +60,10 @@
     %>
     <liferay-ui:search-iterator searchContainer="<%= searchContainer %>" />
 
-    <liferay-portlet:renderURL portletConfiguration="true" var="addSlideURL"></liferay-portlet:renderURL>
+    <liferay-portlet:renderURL portletConfiguration="true" var="addSlideURL"/>
 
     <aui:button-row>
-        <aui:button href="<%=addSlideURL%>" value="button-add-slide"></aui:button>
+        <aui:button href="<%=addSlideURL%>" value="button-add-slide"/>
     </aui:button-row>
 
 </aui:fieldset>
@@ -75,7 +73,7 @@
         if (confirm('<liferay-ui:message key="message-are-you-sure-you-want-to-delete-slide"/>')){
             return true;
         } else {
-            self.focus(); 
+            self.focus();
             return false;
         }
 
