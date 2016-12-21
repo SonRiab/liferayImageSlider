@@ -19,27 +19,23 @@
 <%@include file="/init.jsp" %>
 
 <%
-    String portletResource = ParamUtil.getString(renderRequest, "portletResource");
-
-    PortletPreferences preferences = SliderUtil.getPreference(renderRequest, portletResource);
-
-    String viewPermission = preferences.getValue(SliderParamUtil.SETTINGS_VIEW_PERMISSION, "both");
+    String viewPermission = portletPreferences.getValue(SliderParamUtil.SETTINGS_VIEW_PERMISSION, "both");
 %>
 
 <liferay-portlet:actionURL portletConfiguration="true" var="actionURL" />
 <aui:form action="<%=actionURL.toString()%>" method="post" name="fm">
-    <aui:input name="<%=SliderConstants.CMD%>" type="hidden" 
+    <aui:input name="<%=SliderConstants.CMD%>" type="hidden"
             value="<%=SliderConstants.UPDATE_SETTINGS%>" />
-    <aui:input name="tab" type="hidden" 
+    <aui:input name="tab" type="hidden"
             value="<%=SliderConstants.TAB_GENERAL%>" />
     <%
         request.setAttribute("slide-name", SliderParamUtil.SETTINGS_VIEW_PERMISSION);
         request.setAttribute("slide-value", viewPermission);
         request.setAttribute("slide-property", "slider-view-permission");
-    %>	
+    %>
     <jsp:include page="/jsps/config/util/settings_field.jsp"></jsp:include>
-        
+
     <aui:button-row>
-        <aui:button name="saveButton" cssClass="save-btn" type="submit" value="save" />				
+        <aui:button name="saveButton" cssClass="save-btn" type="submit" value="save" />
     </aui:button-row>
 </aui:form>

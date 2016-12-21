@@ -16,7 +16,7 @@
  */
 --%>
 <%@ include file="/init.jsp"%>
-<%		
+<%
     String slidesBuilder  = SliderUtil.buildSlides(renderRequest, renderResponse);
     String captionBuilder = SliderUtil.buildCaption(renderRequest, renderResponse);
     String sliderSettings  = SliderUtil.buildSliderSettings(renderRequest, renderResponse);
@@ -24,24 +24,23 @@
     boolean displaySlide  = (slidesBuilder != null && !slidesBuilder.trim().equals(""));
 
     //Slides Themes
-    PortletPreferences preferences = SliderUtil.getPreference(renderRequest, null);
 
-    String themeValue = preferences.getValue(SliderParamUtil.SETTINGS_THEME, "default");
-    String addCssClassValue = preferences.getValue(SliderParamUtil.SETTINGS_ADDITIONAL_CSS_CLASS, "");
-    String widthValue = preferences.getValue(SliderParamUtil.SETTINGS_SLIDER_WIDTH, "618");
-    String heightValue = preferences.getValue(SliderParamUtil.SETTINGS_SLIDER_HEIGHT, "246");
-    String disableCaption = preferences.getValue(SliderParamUtil.SETTINGS_DISABLE_CAPTION, "false");
+    String themeValue = portletPreferences.getValue(SliderParamUtil.SETTINGS_THEME, "default");
+    String addCssClassValue = portletPreferences.getValue(SliderParamUtil.SETTINGS_ADDITIONAL_CSS_CLASS, "");
+    String widthValue = portletPreferences.getValue(SliderParamUtil.SETTINGS_SLIDER_WIDTH, "618");
+    String heightValue = portletPreferences.getValue(SliderParamUtil.SETTINGS_SLIDER_HEIGHT, "246");
+    String disableCaption = portletPreferences.getValue(SliderParamUtil.SETTINGS_DISABLE_CAPTION, "false");
 
     if(Validator.isNull(widthValue))
         widthValue = "618";
     if(Validator.isNull(heightValue))
         heightValue = "246";
     themeValue = themeValue.toLowerCase();
-    
-    if(displaySlide) { 
+
+    if(displaySlide) {
         String inlineStyle = new StringBuilder("width: ").append(widthValue).append("px;")
                 .append("height: ").append(heightValue).append("px;").toString();
-        
+
 
 %>
 <!--<link rel="stylesheet" href="<%=renderRequest.getContextPath()%>/css/<%=themeValue%>/<%=themeValue%>.css" type="text/css" media="screen" />-->
