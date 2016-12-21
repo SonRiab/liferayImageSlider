@@ -29,3 +29,8 @@
     float: none;
     clear: both;
 }
+
+.rotterdam-slider-portlet .pagination {
+    margin: 0;
+    padding: 0;
+}
