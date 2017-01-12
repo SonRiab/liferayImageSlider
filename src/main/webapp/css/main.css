@@ -1,24 +1,6 @@
-.portlet-boundary_RCSSlider_WAR_RCSSliderportlet_ {
-    margin: 0px !important;
-}
 
-.slides .aui-legend{
-    border-bottom: 0px none !important; 
-}
-.slides .results-header th.last{
-    text-align: center;
-}
-
-.slide-field-wrapper{
-    width: 600px !important;
-}
-
-.aui-field-content{
-    margin: 0px !important;
-}
-
-.ltr .aui-column, .rtl .aui-column-last{
-    margin: 10px 0;
+.rotterdam-slider-portlet {
+    margin: 0;
 }
 
 .rotterdam-slider-portlet .caroufredsel_wrapper {
@@ -28,9 +10,4 @@
 .rotterdam-slider-portlet .clearfix {
     float: none;
     clear: both;
-}
-
-.rotterdam-slider-portlet .pagination {
-    margin: 0;
-    padding: 0;
 }
