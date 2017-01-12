@@ -31,19 +31,19 @@
     String heightValue = portletPreferences.getValue(SliderParamUtil.SETTINGS_SLIDER_HEIGHT, "246");
     String disableCaption = portletPreferences.getValue(SliderParamUtil.SETTINGS_DISABLE_CAPTION, "false");
 
-    if(Validator.isNull(widthValue))
-        widthValue = "618";
-    if(Validator.isNull(heightValue))
-        heightValue = "246";
+    if(Validator.isNumber(widthValue))
+        widthValue += "px";
+    if(Validator.isNumber(heightValue))
+        heightValue += "px";
     themeValue = themeValue.toLowerCase();
 
     if(displaySlide) {
-        String inlineStyle = new StringBuilder("width: ").append(widthValue).append("px;")
-                .append("height: ").append(heightValue).append("px;").toString();
+        String inlineStyle = new StringBuilder("width: ").append(widthValue)
+                .append("; height: ").append(heightValue).append(";").toString();
 
 
 %>
-<!--<link rel="stylesheet" href="<%=renderRequest.getContextPath()%>/css/<%=themeValue%>/<%=themeValue%>.css" type="text/css" media="screen" />-->
+
 <div class="theme-<%=themeValue%> <%=addCssClassValue%>" style="<%= inlineStyle %>">
     <div id="<portlet:namespace />slider" class="slider-wrapper">
         <%= slidesBuilder %>
@@ -58,7 +58,7 @@
 <%
     }
 %>
-    <div id="<portlet:namespace />directionNav" class="directionNav" style="width: <%= widthValue %>px;">
+    <div id="<portlet:namespace />directionNav" class="directionNav" style="width: <%= widthValue %>;">
         <a class="prevNav"></a>
         <a class="nextNav"></a>
     </div>
