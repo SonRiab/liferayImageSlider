@@ -9,7 +9,8 @@
         <configuration-action-class>com.rcs.portlet.slider.action.ConfigurationActionImpl</configuration-action-class>
         <instanceable>true</instanceable>
         <header-portlet-css>/css/main.css</header-portlet-css>
-        <header-portlet-javascript>/js/slider.js</header-portlet-javascript>
+        <header-portlet-javascript>/js/jquery.carouFredSel-6.2.1-packed.js</header-portlet-javascript>
+        <header-portlet-javascript>/js/jquery.touchSwipe.min.js</header-portlet-javascript>
         <css-class-wrapper>rotterdam-slider-portlet</css-class-wrapper>
     </portlet>
     <role-mapper>
