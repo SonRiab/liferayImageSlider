@@ -17,22 +17,11 @@
  */
 package com.rcs.portlet.slider.util;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.Enumeration;
-import java.util.List;
-
-import javax.portlet.ActionRequest;
-import javax.portlet.ActionResponse;
-import javax.portlet.PortletPreferences;
-import javax.portlet.PortletRequest;
-import javax.portlet.PortletResponse;
-
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.util.ArrayUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.theme.ThemeDisplay;
@@ -40,12 +29,15 @@ import com.liferay.portlet.PortletPreferencesFactoryUtil;
 import com.rcs.portlet.slider.model.Slide;
 import org.jsoup.Jsoup;
 
+import javax.portlet.*;
+import java.util.*;
+
 /**
  * @author Rajesh
  *
  */
 public class SliderUtil {
-    
+
     private static Log _LOG = LogFactoryUtil.getLog(SliderUtil.class);
 
     public static List<Slide> getSlides(PortletRequest request,
@@ -78,8 +70,8 @@ public class SliderUtil {
 
         String portletResource = ParamUtil.getString(request,
                 "portletResource");
-        PortletPreferences portletPreferences = getPreference(request,
-                portletResource);
+
+        PortletPreferences portletPreferences = request.getPreferences();
 
         List<Slide> slides = new ArrayList<Slide>();
         Enumeration<String> prefMap = portletPreferences.getNames();
@@ -101,6 +93,16 @@ public class SliderUtil {
         return slides;
     }
 
+    /**
+     *
+     * @param request
+     * @param portletResource
+     * @return
+     * @throws PortalException
+     * @throws SystemException
+     * @deprecated since Liferay 6.2.5 this method throws NPE
+     */
+    @Deprecated
     public static PortletPreferences getPreference(PortletRequest request,
             String portletResource)
             throws PortalException, SystemException {
@@ -127,7 +129,7 @@ public class SliderUtil {
         StringBuilder slidesBuilder = new StringBuilder();
         for (Slide slide : slides) {
             slidesBuilder.append("<div class=\"rcs-slide\" id=\"slide").append(slide.getId()).append("\">");
-            
+
             if (Validator.isNotNull(slide.getLink())) {
                 slidesBuilder.append("<a href=\"").append(slide.getLink());
                 if (Validator.isNotNull(slide.getTitle())) {
@@ -149,13 +151,13 @@ public class SliderUtil {
             if (Validator.isNotNull(slide.getLink())) {
                 slidesBuilder.append("</a>");
             }
-            
+
             slidesBuilder.append("</div>");
         }// end slides for
 
         return slidesBuilder.toString();
     }
-    
+
     public static String buildCaption(PortletRequest renderRequest,
             PortletResponse renderResponse)
             throws PortalException, SystemException {
@@ -175,7 +177,7 @@ public class SliderUtil {
     }
 
     /**
-     * 
+     *
      * @param namespace
      * @param wrapperWidth
      * @param wrapperHeight
@@ -193,7 +195,7 @@ public class SliderUtil {
      * @param manualAdvance
      * @param synchronise
      * @param synchroniseOptions
-     * @return 
+     * @return
      */
     private static String buildSettings(
             String  namespace,
@@ -219,54 +221,54 @@ public class SliderUtil {
 
         StringBuilder settings = new StringBuilder();
         String replaceThis = "";
-        
+
         // parse boolean values first
         boolean useDirectNav = false;
         if(Validator.isNotNull(directionNav)
-                && ("true".equalsIgnoreCase(directionNav) 
+                && ("true".equalsIgnoreCase(directionNav)
                     || "false".equalsIgnoreCase(directionNav))) {
             useDirectNav = Boolean.parseBoolean(directionNav);
         }
-        
+
         boolean useKeyboardNav = false;
         if (Validator.isNotNull(keyboardNav)
-                && ("true".equalsIgnoreCase(keyboardNav) 
+                && ("true".equalsIgnoreCase(keyboardNav)
                     || "false".equalsIgnoreCase(keyboardNav))) {
             useKeyboardNav = Boolean.parseBoolean(keyboardNav);
         }
-        
+
         boolean useControlNav = false;
         if (Validator.isNotNull(controlNav)
-                && ("true".equalsIgnoreCase(controlNav) 
+                && ("true".equalsIgnoreCase(controlNav)
                     || "false".equalsIgnoreCase(controlNav))) {
             useControlNav = Boolean.parseBoolean(controlNav);
         }
-        
+
         boolean doPauseOnHover = false;
         if (Validator.isNotNull(pauseOnHover)
-                && ("true".equalsIgnoreCase(pauseOnHover) 
+                && ("true".equalsIgnoreCase(pauseOnHover)
                     || "false".equalsIgnoreCase(pauseOnHover))) {
             doPauseOnHover = Boolean.parseBoolean(pauseOnHover);
         }
-        
+
         boolean doRandomSlide = false;
         if (Validator.isNotNull(randomSlide)
-                && ("true".equalsIgnoreCase(randomSlide) 
+                && ("true".equalsIgnoreCase(randomSlide)
                     || "false".equalsIgnoreCase(pauseOnHover))) {
             doRandomSlide = Boolean.parseBoolean(randomSlide);
         }
-        
+
         boolean manualNavOnly = false;
         if (Validator.isNotNull(manualAdvance)
-                && ("true".equalsIgnoreCase(manualAdvance) 
+                && ("true".equalsIgnoreCase(manualAdvance)
                     || "false".equalsIgnoreCase(manualAdvance))) {
             manualNavOnly = Boolean.parseBoolean(manualAdvance);
         }
 
         // build the settings string
-        
+
         /* The width of the carousel. If null, the width will be calculated.
-         * Use "variable" to automatically resize the carousel when scrolling 
+         * Use "variable" to automatically resize the carousel when scrolling
          * items with variable widths.  Use "auto" to measure the widthest item.
          * Use a percentage value (e.g.: "90%") to automatically resize
          * (and re-configurate) the carousel onWindowResize.
@@ -283,7 +285,7 @@ public class SliderUtil {
         }
 
         /* The height of the carousel. If null, the height will be calculated.
-         * Use "variable" to automatically resize the carousel when scrolling 
+         * Use "variable" to automatically resize the carousel when scrolling
          * items with variable heights.  Use "auto" to measure the heightest item.
          * Use a percentage value (e.g.: "90%") to automatically resize
          * (and re-configurate) the carousel onWindowResize.
@@ -298,11 +300,11 @@ public class SliderUtil {
         } else {
             settings.append("height:null");
         }
-        
+
         /**
          * Use an JS string as selector for the carousel to synchronise.
 	 * Or use an JS array as selector and options for the carousel to synchronise:
-         * [string selector, boolean inheritOptions, boolean sameDirection, number deviation] 
+         * [string selector, boolean inheritOptions, boolean sameDirection, number deviation]
          * For example: ["#foo2", true, true, 0]
 	 * Or use an JS array as a collection of arrays.
          */
@@ -315,7 +317,7 @@ public class SliderUtil {
         settings.append(", items:{");
         {
             /* Number of visilbe items. If null, the number will be calculated.
-             * 
+             *
              */
             if (Validator.isNotNull(numberItems)) {
                 if(Validator.isNumber(numberItems)) {
@@ -327,8 +329,8 @@ public class SliderUtil {
                 // even if this is the default value we append it to have a well defined beginning
                 settings.append("visible:null");
             }
-            
-            
+
+
            /* The nth item to start the carousel. Hint: This can also be a negative number.
             * Use "random" to let the plugin pick a randon item to start the carousel.
             */
@@ -338,10 +340,10 @@ public class SliderUtil {
                     settings.append("start:'random'");
                 } else if(Validator.isNumber(startSlide)) {
                     settings.append("start:").append(startSlide);
-                } 
+                }
             }
 
-            
+
             // TODO change this to a new setting
             /* The width of the items. If null, the width will be measured.
              * "variable" creates a carousel that supports variable item-widths.
@@ -384,16 +386,16 @@ public class SliderUtil {
                 // even if this is the default value we append it to have a well defined beginning
                 settings.append("items:null");
             }
-            
+
             /* Indicates which effect to use for the transition.
-             * Possible values: "none", "scroll", "directscroll", "fade", 
+             * Possible values: "none", "scroll", "directscroll", "fade",
              * "crossfade", "cover", "cover-fade", "uncover" or "uncover-fade".
              */
             if (Validator.isNotNull(effectSelected)) {
                 settings.append(", ");
                 settings.append("fx:'").append(effectSelected).append("'");
             }
-            
+
             /* Indicates which easing function to use for the transition.
              * jQuery defaults: "linear" and "swing", built in: "quadratic", "
              * cubic" and "elastic"
@@ -402,14 +404,14 @@ public class SliderUtil {
                 settings.append(", ");
                 settings.append("easing:'").append(replaceThis).append("'");
             }
-            
+
             /* Determines the duration of the transition in milliseconds. */
-            if (Validator.isNotNull(animationSpeed) && 
+            if (Validator.isNotNull(animationSpeed) &&
                     Validator.isNumber(animationSpeed)) {
                 settings.append(", ");
                 settings.append("duration:").append(animationSpeed);
             }
-            
+
             /* Determines whether the timeout between transitions should be paused "onMouseOver".
              * Use "resume" to let the timeout resume instead of restart "onMouseOut".
              * Use "immediate" to immediately stop "onMouseOver" and resume "onMouseOut" a scrolling carousel.
@@ -422,10 +424,10 @@ public class SliderUtil {
                 settings.append(", ");
                 settings.append("pauseOnHover:'").append(pauseOnHover).append("'");
             }
-            
+
         }
         settings.append("}");
-        
+
         /* A map of the configuration used for automatic scrolling */
         settings.append(", auto:{");
         {
@@ -435,14 +437,14 @@ public class SliderUtil {
             } else {
                 settings.append("play:true");
             }
-            
+
             /* Determines whether the carousel should scroll automatically or not. */
             if (Validator.isNotNull(pauseTime) &&
                     Validator.isNumber(pauseTime)) {
                 settings.append(", ");
                 settings.append("timeoutDuration:").append(pauseTime);
             }
-            
+
             /* Determines whether the carousel should scroll automatically or not. */
             if (Validator.isNotNull(pauseTime) &&
                     Validator.isNumber(pauseTime)) {
@@ -451,10 +453,10 @@ public class SliderUtil {
             }
         }
         settings.append("}");
-        
+
         if(useDirectNav) {
             /* A map of the configuration used for scrolling backwards using the "previous"
-             * button or key 
+             * button or key
              */
             settings.append(", prev:{");
             {
@@ -466,8 +468,8 @@ public class SliderUtil {
             }
             settings.append("}");
 
-            /* A map of the configuration used for scrolling forward using the "next" 
-             * button or key 
+            /* A map of the configuration used for scrolling forward using the "next"
+             * button or key
              */
             settings.append(", next:{");
             {
@@ -479,10 +481,10 @@ public class SliderUtil {
             }
             settings.append("}");
         }
-        
+
         if (useControlNav) {
-            /* A map of the configuration used for scrolling via the "pagination" 
-             * buttons/bullets or keys 
+            /* A map of the configuration used for scrolling via the "pagination"
+             * buttons/bullets or keys
              */
             settings.append(", pagination:{");
             {
@@ -494,10 +496,10 @@ public class SliderUtil {
             }
             settings.append("}");
         }
-        
+
         if(enableSwipe) {
-            /* A map of the configuration used for scrolling via swiping (on touch-devices) 
-             * or dragging (using a mouse) 
+            /* A map of the configuration used for scrolling via swiping (on touch-devices)
+             * or dragging (using a mouse)
              */
             settings.append(", swipe:{");
             {
@@ -507,7 +509,7 @@ public class SliderUtil {
             }
             settings.append("}");
         }
-        
+
         _LOG.debug(settings);
 
         return settings.toString();
@@ -529,21 +531,20 @@ public class SliderUtil {
         /*
          * http://caroufredsel.dev7studios.com/configuration.php
          */
-        PortletPreferences preferences = SliderUtil.getPreference(
-                renderRequest, null);
-        
+        PortletPreferences preferences = renderRequest.getPreferences();
+
         String syncOptions = new StringBuilder("['#")
                 .append(renderResponse.getNamespace())
                 .append("caption', false, true, 0]").toString();
-        
+
         String disableCaption = preferences.getValue(SliderParamUtil.SETTINGS_DISABLE_CAPTION, "false");
         boolean synchronise = true;
         if(Validator.isNotNull(disableCaption)
-                && ("true".equalsIgnoreCase(disableCaption) 
+                && ("true".equalsIgnoreCase(disableCaption)
                     || "false".equalsIgnoreCase(disableCaption))) {
             synchronise = !Boolean.parseBoolean(disableCaption);
         }
-        
+
         return buildSettings(
                 renderResponse.getNamespace(),
                 preferences.getValue(SliderParamUtil.SETTINGS_SLIDER_WIDTH, null),
@@ -574,8 +575,7 @@ public class SliderUtil {
         /*
          * http://caroufredsel.dev7studios.com/configuration.php
          */
-        PortletPreferences preferences = SliderUtil.getPreference(
-                renderRequest, null);
+        PortletPreferences preferences = renderRequest.getPreferences();
 
         return buildSettings(
                 renderResponse.getNamespace(),
@@ -605,12 +605,11 @@ public class SliderUtil {
 
         String portletResource = ParamUtil.getString(request,
                 "portletResource");
-        PortletPreferences portletPreferences = getPreference(request,
-                portletResource);
+        PortletPreferences portletPreferences = request.getPreferences();
 
         String[] values = portletPreferences.getValues(slideId, null);
 
-        if (Validator.isNotNull(values)) {
+        if (ArrayUtil.isNotEmpty(values)) {
             return getSlide(slideId, values);
         }
 

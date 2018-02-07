@@ -1,5 +1,7 @@
 <?xml version="1.0"?>
-<!DOCTYPE liferay-portlet-app PUBLIC "-//Liferay//DTD Portlet Application 6.1.0//EN" "http://www.liferay.com/dtd/liferay-portlet-app_6_1_0.dtd">
+<!DOCTYPE liferay-portlet-app PUBLIC
+        "-//Liferay//DTD Portlet Application 6.2.0//EN"
+        "http://www.liferay.com/dtd/liferay-portlet-app_6_2_0.dtd">
 
 <liferay-portlet-app>
     <portlet>
@@ -7,6 +9,8 @@
         <configuration-action-class>com.rcs.portlet.slider.action.ConfigurationActionImpl</configuration-action-class>
         <instanceable>true</instanceable>
         <header-portlet-css>/css/main.css</header-portlet-css>
+        <header-portlet-javascript>/js/jquery.carouFredSel-6.2.1-packed.js</header-portlet-javascript>
+        <header-portlet-javascript>/js/jquery.touchSwipe.min.js</header-portlet-javascript>
         <css-class-wrapper>rotterdam-slider-portlet</css-class-wrapper>
     </portlet>
     <role-mapper>

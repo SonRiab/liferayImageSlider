@@ -19,22 +19,18 @@
 
 <%
 
-    String portletResource = ParamUtil.getString(renderRequest, "portletResource");
-
-    PortletPreferences preferences = SliderUtil.getPreference(renderRequest, portletResource);
-
-    String theme = preferences.getValue(SliderParamUtil.SETTINGS_THEME, "default");
-    String addCssClass = preferences.getValue(SliderParamUtil.SETTINGS_ADDITIONAL_CSS_CLASS, "");
-    String numberSlides = preferences.getValue(SliderParamUtil.SETTINGS_NUMBER_SLIDES, "");
-    String sliderWidth = preferences.getValue(SliderParamUtil.SETTINGS_SLIDER_WIDTH, "618");
-    String sliderHeight = preferences.getValue(SliderParamUtil.SETTINGS_SLIDER_HEIGHT, "246");
-    String sliderItemWidth = preferences.getValue(SliderParamUtil.SETTINGS_SLIDER_ITEM_WIDTH, "618");
-    String sliderItemHeight = preferences.getValue(SliderParamUtil.SETTINGS_SLIDER_ITEM_HEIGHT, "246");
-    String disableCaption = preferences.getValue(SliderParamUtil.SETTINGS_DISABLE_CAPTION, "false");
-    String captionWidth = preferences.getValue(SliderParamUtil.SETTINGS_CAPTION_WIDTH, "618");
-    String captionHeight = preferences.getValue(SliderParamUtil.SETTINGS_CAPTION_HEIGHT, "246");
-    String captionItemWidth = preferences.getValue(SliderParamUtil.SETTINGS_CAPTION_ITEM_WIDTH, "618");
-    String captionItemHeight = preferences.getValue(SliderParamUtil.SETTINGS_CAPTION_ITEM_HEIGHT, "246");
+    String sliderTheme = portletPreferences.getValue(SliderParamUtil.SETTINGS_THEME, "default");
+    String addCssClass = portletPreferences.getValue(SliderParamUtil.SETTINGS_ADDITIONAL_CSS_CLASS, "");
+    String numberSlides = portletPreferences.getValue(SliderParamUtil.SETTINGS_NUMBER_SLIDES, "");
+    String sliderWidth = portletPreferences.getValue(SliderParamUtil.SETTINGS_SLIDER_WIDTH, "618");
+    String sliderHeight = portletPreferences.getValue(SliderParamUtil.SETTINGS_SLIDER_HEIGHT, "246");
+    String sliderItemWidth = portletPreferences.getValue(SliderParamUtil.SETTINGS_SLIDER_ITEM_WIDTH, "618");
+    String sliderItemHeight = portletPreferences.getValue(SliderParamUtil.SETTINGS_SLIDER_ITEM_HEIGHT, "246");
+    String disableCaption = portletPreferences.getValue(SliderParamUtil.SETTINGS_DISABLE_CAPTION, "false");
+    String captionWidth = portletPreferences.getValue(SliderParamUtil.SETTINGS_CAPTION_WIDTH, "618");
+    String captionHeight = portletPreferences.getValue(SliderParamUtil.SETTINGS_CAPTION_HEIGHT, "246");
+    String captionItemWidth = portletPreferences.getValue(SliderParamUtil.SETTINGS_CAPTION_ITEM_WIDTH, "618");
+    String captionItemHeight = portletPreferences.getValue(SliderParamUtil.SETTINGS_CAPTION_ITEM_HEIGHT, "246");
 
 %>
 
@@ -42,89 +38,89 @@
 
 <aui:fieldset label="tab-slide-look-and-feel">
 
-    <aui:form action="<%=actionURL.toString()%>" method="post" name="fm">
+    <aui:form action="<%=actionURL%>" method="post" name="fm">
 
-        <aui:input name="<%=SliderConstants.CMD%>" type="hidden" 
+        <aui:input name="<%=SliderConstants.CMD%>" type="hidden"
         value="<%=SliderConstants.UPDATE_SETTINGS%>" />
-        <aui:input name="tab" type="hidden" 
-        value="<%=SliderConstants.TAB_SLIDES_LOOK_AND_FEEL%>" />		
+        <aui:input name="tab" type="hidden"
+        value="<%=SliderConstants.TAB_SLIDES_LOOK_AND_FEEL%>" />
 
         <%
             request.setAttribute("slide-name", SliderParamUtil.SETTINGS_THEME);
-            request.setAttribute("slide-value", theme);
+            request.setAttribute("slide-value", sliderTheme);
             request.setAttribute("slide-property", "slider-theme");
-        %>	
-        <jsp:include page="/jsps/config/util/settings_field.jsp"></jsp:include>
+        %>
+        <jsp:include page="/jsps/config/util/settings_field.jsp"/>
 
         <%
             request.setAttribute("slide-name", SliderParamUtil.SETTINGS_ADDITIONAL_CSS_CLASS);
             request.setAttribute("slide-value", addCssClass);
-        %>	
-        <jsp:include page="/jsps/config/util/settings_field.jsp"></jsp:include>
-        
+        %>
+        <jsp:include page="/jsps/config/util/settings_field.jsp"/>
+
         <%
             request.setAttribute("slide-name", SliderParamUtil.SETTINGS_NUMBER_SLIDES);
             request.setAttribute("slide-value", numberSlides);
-        %>	
-        <jsp:include page="/jsps/config/util/settings_field.jsp"></jsp:include>
+        %>
+        <jsp:include page="/jsps/config/util/settings_field.jsp"/>
 
         <%
             request.setAttribute("slide-name", SliderParamUtil.SETTINGS_SLIDER_WIDTH);
             request.setAttribute("slide-value", sliderWidth);
-        %>	
-        <jsp:include page="/jsps/config/util/settings_field.jsp"></jsp:include>
+        %>
+        <jsp:include page="/jsps/config/util/settings_field.jsp"/>
 
         <%
             request.setAttribute("slide-name", SliderParamUtil.SETTINGS_SLIDER_HEIGHT);
             request.setAttribute("slide-value", sliderHeight);
-        %>	
-        <jsp:include page="/jsps/config/util/settings_field.jsp"></jsp:include>
-        
+        %>
+        <jsp:include page="/jsps/config/util/settings_field.jsp"/>
+
         <%
             request.setAttribute("slide-name", SliderParamUtil.SETTINGS_SLIDER_ITEM_WIDTH);
             request.setAttribute("slide-value", sliderItemWidth);
-        %>	
-        <jsp:include page="/jsps/config/util/settings_field.jsp"></jsp:include>
+        %>
+        <jsp:include page="/jsps/config/util/settings_field.jsp"/>
 
         <%
             request.setAttribute("slide-name", SliderParamUtil.SETTINGS_SLIDER_ITEM_HEIGHT);
             request.setAttribute("slide-value", sliderItemHeight);
-        %>	
-        <jsp:include page="/jsps/config/util/settings_field.jsp"></jsp:include>
-        
+        %>
+        <jsp:include page="/jsps/config/util/settings_field.jsp"/>
+
         <%
             request.setAttribute("slide-name", SliderParamUtil.SETTINGS_DISABLE_CAPTION);
             request.setAttribute("slide-value", disableCaption);
             request.setAttribute("slide-property", "slider-option-true-false");
-        %>	
-        <jsp:include page="/jsps/config/util/settings_field.jsp"></jsp:include>
-        
+        %>
+        <jsp:include page="/jsps/config/util/settings_field.jsp"/>
+
         <%
             request.setAttribute("slide-name", SliderParamUtil.SETTINGS_CAPTION_WIDTH);
             request.setAttribute("slide-value", captionWidth);
-        %>	
-        <jsp:include page="/jsps/config/util/settings_field.jsp"></jsp:include>
+        %>
+        <jsp:include page="/jsps/config/util/settings_field.jsp"/>
 
         <%
             request.setAttribute("slide-name", SliderParamUtil.SETTINGS_CAPTION_HEIGHT);
             request.setAttribute("slide-value", captionHeight);
-        %>	
-        <jsp:include page="/jsps/config/util/settings_field.jsp"></jsp:include>
-        
+        %>
+        <jsp:include page="/jsps/config/util/settings_field.jsp"/>
+
         <%
             request.setAttribute("slide-name", SliderParamUtil.SETTINGS_CAPTION_ITEM_WIDTH);
             request.setAttribute("slide-value", captionItemWidth);
-        %>	
-        <jsp:include page="/jsps/config/util/settings_field.jsp"></jsp:include>
+        %>
+        <jsp:include page="/jsps/config/util/settings_field.jsp"/>
 
         <%
             request.setAttribute("slide-name", SliderParamUtil.SETTINGS_CAPTION_ITEM_HEIGHT);
             request.setAttribute("slide-value", captionItemHeight);
-        %>	
-        <jsp:include page="/jsps/config/util/settings_field.jsp"></jsp:include>
+        %>
+        <jsp:include page="/jsps/config/util/settings_field.jsp"/>
 
         <aui:button-row>
-            <aui:button name="saveButton" cssClass="save-btn" type="submit" value="save" />				
+            <aui:button name="saveButton" cssClass="save-btn" type="submit" value="save" />
         </aui:button-row>
     </aui:form>
 </aui:fieldset>

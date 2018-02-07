@@ -16,7 +16,7 @@
         <supports>
             <mime-type>text/html</mime-type>
         </supports>
-        <resource-bundle>content.Language</resource-bundle>
+        <resource-bundle>languages.Language</resource-bundle>
         <portlet-info>
             <title>RCS Slider Portlet</title>
             <short-title>RCS Slider Portlet</short-title>

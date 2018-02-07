@@ -16,7 +16,7 @@
  */
 --%>
 <%@ include file="/init.jsp"%>
-<%		
+<%
     String slidesBuilder  = SliderUtil.buildSlides(renderRequest, renderResponse);
     String captionBuilder = SliderUtil.buildCaption(renderRequest, renderResponse);
     String sliderSettings  = SliderUtil.buildSliderSettings(renderRequest, renderResponse);
@@ -24,27 +24,26 @@
     boolean displaySlide  = (slidesBuilder != null && !slidesBuilder.trim().equals(""));
 
     //Slides Themes
-    PortletPreferences preferences = SliderUtil.getPreference(renderRequest, null);
 
-    String themeValue = preferences.getValue(SliderParamUtil.SETTINGS_THEME, "default");
-    String addCssClassValue = preferences.getValue(SliderParamUtil.SETTINGS_ADDITIONAL_CSS_CLASS, "");
-    String widthValue = preferences.getValue(SliderParamUtil.SETTINGS_SLIDER_WIDTH, "618");
-    String heightValue = preferences.getValue(SliderParamUtil.SETTINGS_SLIDER_HEIGHT, "246");
-    String disableCaption = preferences.getValue(SliderParamUtil.SETTINGS_DISABLE_CAPTION, "false");
+    String themeValue = portletPreferences.getValue(SliderParamUtil.SETTINGS_THEME, "default");
+    String addCssClassValue = portletPreferences.getValue(SliderParamUtil.SETTINGS_ADDITIONAL_CSS_CLASS, "");
+    String widthValue = portletPreferences.getValue(SliderParamUtil.SETTINGS_SLIDER_WIDTH, "618");
+    String heightValue = portletPreferences.getValue(SliderParamUtil.SETTINGS_SLIDER_HEIGHT, "246");
+    String disableCaption = portletPreferences.getValue(SliderParamUtil.SETTINGS_DISABLE_CAPTION, "false");
 
-    if(Validator.isNull(widthValue))
-        widthValue = "618";
-    if(Validator.isNull(heightValue))
-        heightValue = "246";
+    if(Validator.isNumber(widthValue))
+        widthValue += "px";
+    if(Validator.isNumber(heightValue))
+        heightValue += "px";
     themeValue = themeValue.toLowerCase();
-    
-    if(displaySlide) { 
-        String inlineStyle = new StringBuilder("width: ").append(widthValue).append("px;")
-                .append("height: ").append(heightValue).append("px;").toString();
-        
+
+    if(displaySlide) {
+        String inlineStyle = new StringBuilder("width: ").append(widthValue)
+                .append("; height: ").append(heightValue).append(";").toString();
+
 
 %>
-<!--<link rel="stylesheet" href="<%=renderRequest.getContextPath()%>/css/<%=themeValue%>/<%=themeValue%>.css" type="text/css" media="screen" />-->
+
 <div class="theme-<%=themeValue%> <%=addCssClassValue%>" style="<%= inlineStyle %>">
     <div id="<portlet:namespace />slider" class="slider-wrapper">
         <%= slidesBuilder %>
@@ -59,14 +58,14 @@
 <%
     }
 %>
-    <div id="<portlet:namespace />directionNav" class="directionNav" style="width: <%= widthValue %>px;">
+    <div id="<portlet:namespace />directionNav" class="directionNav" style="width: <%= widthValue %>;">
         <a class="prevNav"></a>
         <a class="nextNav"></a>
     </div>
     <div id="<portlet:namespace />pagination" class="pagination"></div>
 </div>
 <%  } else { %>
-<center><b><liferay-ui:message key="message-no-slides-configured"></liferay-ui:message></b></center>
+<center><b><liferay-ui:message key="message-no-slides-configured"/></b></center>
 <%  } %>
 
 <aui:script>

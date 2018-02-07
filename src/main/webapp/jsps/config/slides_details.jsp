@@ -21,64 +21,66 @@
 
 <aui:fieldset label="tab-slides" cssClass="slides">
     <%
-        Locale  locale = renderRequest.getLocale();
-
-        List<String> headerNames = new ArrayList<String>();
-        headerNames.add(LanguageUtil.get(locale, "title"));
-        headerNames.add(LanguageUtil.get(locale, "order"));
-        headerNames.add(LanguageUtil.get(locale, "action"));
-
-        PortletURL portletURL = renderResponse.createRenderURL();
-
-        // create search container, used to display table
-        SearchContainer searchContainer = new SearchContainer(renderRequest, null, null,
-                        SearchContainer.DEFAULT_CUR_PARAM, SearchContainer.DEFAULT_DELTA, portletURL, headerNames,
-                        "message-no-records");
-
-        portletURL.setParameter(searchContainer.getCurParam(), String.valueOf(searchContainer.getCurValue()));
-
         List<Slide> slides = SliderUtil.getSlides(renderRequest, resourceResponse);
-        int count  = slides.size();
 
-        searchContainer.setTotal(count);
+        String title = LanguageUtil.get(pageContext, "title"),
+            order = LanguageUtil.get(pageContext, "order"),
+            action = LanguageUtil.get(pageContext, "action");
 
-        // fill table
-        List<ResultRow> resultRows = searchContainer.getResultRows();
-
-        for (int i = 0; i < slides.size(); i++) {
-
-            Slide slide = slides.get(i);
-
-            ResultRow row = new ResultRow(slide, slide.getId(), 1);
-
-            row.addText(slide.getTitle());
-            row.addText(String.valueOf(slide.getOrder()));
-
-            row.addJSP("center", SearchEntry.DEFAULT_VALIGN, "/jsps/config/slide_action.jsp",
-                            config.getServletContext(), request, response);
-
-            resultRows.add(row);
-        }
     %>
-    <liferay-ui:search-iterator searchContainer="<%= searchContainer %>" />
+    <liferay-ui:search-container var="sliderContainer"
+                                 deltaConfigurable="<%= Boolean.FALSE %>"
+                                 delta="<%= slides.size() %>"
+                                 total="<%= slides.size() %>">
+        <liferay-ui:search-container-results results="<%= slides %>"/>
+        <liferay-ui:search-container-row className="com.rcs.portlet.slider.model.Slide" modelVar="slide">
+            <liferay-ui:search-container-column-text name="<%= title %>">
+                ${slide.title}
+            </liferay-ui:search-container-column-text>
+            <liferay-ui:search-container-column-text name="<%= order %>">
+                ${slide.order}
+            </liferay-ui:search-container-column-text>
+            <liferay-ui:search-container-column-text name="<%= action %>">
+                <liferay-portlet:renderURL portletConfiguration="true" var="slideUpURL" >
+                    <liferay-portlet:param name="slideId" value="slides_${slide.id}" />
+                    <liferay-portlet:param name="<%=SliderConstants.CMD %>" value="<%=SliderConstants.SLIDE_MOVE_UP%>" />
+                    <liferay-portlet:param name="tab" value="<%=SliderConstants.TAB_SLIDES%>" />
+                </liferay-portlet:renderURL>
 
-    <liferay-portlet:renderURL portletConfiguration="true" var="addSlideURL"></liferay-portlet:renderURL>
+                <liferay-ui:icon image="top" message="alt-slide-up" url="<%= slideUpURL %>" />
+
+                <liferay-portlet:renderURL portletConfiguration="true" var="slideDownURL" >
+                    <liferay-portlet:param name="slideId" value="slides_${slide.id}" />
+                    <liferay-portlet:param name="<%=SliderConstants.CMD %>" value="<%=SliderConstants.SLIDE_MOVE_DOWN%>" />
+                    <liferay-portlet:param name="tab" value="<%=SliderConstants.TAB_SLIDES%>" />
+                </liferay-portlet:renderURL>
+
+                <liferay-ui:icon image="bottom" message="alt-slide-down" url="<%= slideDownURL %>" />
+
+                <liferay-portlet:renderURL portletConfiguration="true" var="updateURL" >
+                    <liferay-portlet:param name="slideParamId" value="slides_${slide.id}" />
+                </liferay-portlet:renderURL>
+
+                <liferay-ui:icon image="edit" url="<%= updateURL %>" />
+
+                <liferay-portlet:renderURL portletConfiguration="true" var="deleteURL" >
+                    <liferay-portlet:param name="slideId" value="slides_${slide.id}" />
+                    <liferay-portlet:param name="<%=SliderConstants.CMD %>" value="<%=SliderConstants.DELETE%>" />
+                    <liferay-portlet:param name="tab" value="<%=SliderConstants.TAB_SLIDES%>" />
+                </liferay-portlet:renderURL >
+
+                <liferay-ui:icon-delete url="<%= deleteURL %>"/>
+
+            </liferay-ui:search-container-column-text>
+        </liferay-ui:search-container-row>
+        <liferay-ui:search-iterator searchContainer="${sliderContainer}" paginate="false" />
+    </liferay-ui:search-container>
+
+
+    <liferay-portlet:renderURL portletConfiguration="true" var="addSlideURL"/>
 
     <aui:button-row>
-        <aui:button href="<%=addSlideURL%>" value="button-add-slide"></aui:button>
+        <aui:button href="<%=addSlideURL%>" value="button-add-slide"/>
     </aui:button-row>
 
 </aui:fieldset>
-
-<aui:script>
-    function confirmDeleteSlide() {
-        if (confirm('<liferay-ui:message key="message-are-you-sure-you-want-to-delete-slide"/>')){
-            return true;
-        } else {
-            self.focus(); 
-            return false;
-        }
-
-        return false;
-    }
-</aui:script>

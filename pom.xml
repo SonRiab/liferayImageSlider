@@ -17,8 +17,32 @@
         <javax.servlet-jsp.version>2.2</javax.servlet-jsp.version>
         <javax.portlet.version>2.0</javax.portlet.version>
         <war.name>rcs-slider-portlet</war.name>
-        <liferay.version>6.1.1</liferay.version>
+        <liferay.version>6.2.5</liferay.version>
+
+        <distribution.release.id>base-release</distribution.release.id>
+        <distribution.release.name>[j]karef Releases</distribution.release.name>
+        <distribution.release.url>https://distribution.jkaref.com/artifactory/base-release</distribution.release.url>
+        <distribution.beta.id>base-beta</distribution.beta.id>
+        <distribution.beta.name>[j]karef Beta Releases</distribution.beta.name>
+        <distribution.beta.url>https://distribution.jkaref.com/artifactory/base-beta</distribution.beta.url>
     </properties>
+
+    <distributionManagement>
+        <repository>
+            <id>${distribution.release.id}</id>
+            <name>${distribution.release.name}</name>
+            <url>${distribution.release.url}</url>
+        </repository>
+        <snapshotRepository>
+            <id>${distribution.beta.id}</id>
+            <name>${distribution.beta.name}</name>
+            <url>${distribution.beta.url}</url>
+        </snapshotRepository>
+        <site>
+            <id>projects.jkaref.com</id>
+            <url>scp://projects.jkaref.com/owidi</url>
+        </site>
+    </distributionManagement>
 
     <dependencies>
 
@@ -127,6 +151,27 @@
                     <encoding>UTF-8</encoding>
                 </configuration>
             </plugin>
+
+            <!-- TRANSLATIONS -->
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <version>1.3.1</version>
+                <executions>
+                    <execution>
+                        <id>Language Conversion</id>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>exec</goal>
+                        </goals>
+                        <configuration>
+                            <executable>${project.basedir}/bin/translate.sh</executable>
+                            <commandlineArgs>${basedir} -esc</commandlineArgs>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
         </plugins>
+
     </build>
 </project>
