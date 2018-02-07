@@ -151,6 +151,27 @@
                     <encoding>UTF-8</encoding>
                 </configuration>
             </plugin>
+
+            <!-- TRANSLATIONS -->
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <version>1.3.1</version>
+                <executions>
+                    <execution>
+                        <id>Language Conversion</id>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>exec</goal>
+                        </goals>
+                        <configuration>
+                            <executable>${project.basedir}/bin/translate.sh</executable>
+                            <commandlineArgs>${basedir} -esc</commandlineArgs>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
         </plugins>
+
     </build>
 </project>
