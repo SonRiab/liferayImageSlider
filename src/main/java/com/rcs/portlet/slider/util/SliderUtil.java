@@ -24,6 +24,7 @@ import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.util.ArrayUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.Validator;
+import com.liferay.portal.kernel.util.WebKeys;
 import com.liferay.portal.theme.ThemeDisplay;
 import com.liferay.portlet.PortletPreferencesFactoryUtil;
 import com.rcs.portlet.slider.model.Slide;
@@ -110,7 +111,7 @@ public class SliderUtil {
         if (portletResource == null
                 || portletResource.trim().equals("")) {
             ThemeDisplay themeDisplay = (ThemeDisplay) request
-                    .getAttribute("THEME_DISPLAY");
+                    .getAttribute(WebKeys.THEME_DISPLAY);
             portletResource = themeDisplay.getPortletDisplay()
                     .getId();
         }
